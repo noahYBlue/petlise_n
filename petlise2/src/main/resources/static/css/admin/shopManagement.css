@@ -1,0 +1,231 @@
+#listhome {
+	cursor: pointer;
+}
+
+.tabMenu {
+  position: relative;
+  width: 100%;
+}
+.tabWrap {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: start;
+}
+.tabMenu .tabWrap .createbtn {
+  display: inline-block;
+  min-width: 100px;
+  width: 150px;
+  height: 45px;
+  padding: 10px 10px;
+  text-align: center;
+  font:var(--body14);
+  border: 1px solid var(--light-point);
+  border-radius: 20px;
+  cursor: pointer;
+}
+.tabMenu .tabWrap .createbtn:hover {
+  background-color: var(--light-stroke);
+  font-weight: bold;
+}
+
+/* --------- 테이블 ----------- */
+table {
+  display: none;
+  min-width: calc(100% - 250px - 60px);
+  width: 950px;
+  margin-bottom: 30px;
+}
+table thead {
+  width: 100%;
+  background: var(--light-stroke);
+}
+table thead tr {
+  display: grid;
+  grid-template-columns: 50px 80px 80px 100px 246px 90px 90px 90px 90px 90px 60px 60px;
+}
+table thead th {
+  font: var(--highlight16);
+  height: 50px;
+  line-height: 50px;
+}
+table tbody {
+  width: 100%;
+  text-align: center;
+}
+table tbody tr {
+  display: grid;
+  grid-template-columns: 50px 80px 80px 100px 246px 90px 90px 90px 90px 90px 60px 60px;
+  border-bottom: 1px solid var(--light-point);
+}
+table tbody td {
+  font: var(--body14);
+  height: 45px;
+  line-height: 45px;
+  padding: 0 5px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.productname>form>input[type='submit']{
+	width:246px;
+	overflow: hidden;
+  	text-overflow: ellipsis;
+  	white-space: nowrap;
+  	cursor: pointer;
+}
+
+table tbody td:first-of-type,
+table tbody td:last-of-type {
+  padding: 0 10px;
+}
+
+.no_data_msg {
+	grid-column-start : 1;
+	grid-column-end : 13;
+	height:200px;
+}
+
+.no_data_msg>div {
+	width:100%;
+	height:200px;
+	display:flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.table_btnbox button {
+	width:100%;
+	height: 100%;
+	padding: 5px 5px;
+	text-align: center;
+}
+
+.table_btnbox button:hover {
+	color: var(--light-point);
+	font-weight: 700;
+	text-decoration: underline;
+}
+
+/* --------- 카테고리 드롭다운 ----------- */
+.categoryWrap {
+  width: 100%;
+  margin-bottom: 15px;
+  display: flex;
+  justify-content: left;
+  align-items: center;
+}
+.category > p {
+  margin-bottom: 8px;
+  margin-right: 10px;
+}
+#smallCategory {
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+#Category3,
+#sortcategory {
+	margin-right: 10px;
+}
+.dropdown {
+  position: relative;
+  width: 100px;
+  height:45px;
+  border: 1.5px solid var(--light-stroke);
+  border-radius: 5px;
+  font: var(--body14);
+  color: var(--gray2);
+}
+.dropdown:hover{
+  border-color: var(--light-point);
+  background-color: var(--light-stroke);
+}
+
+.dropdown .select {
+  cursor: pointer;
+  padding: 10px 15px;
+  display:flex;
+  justify-content: center;
+  align-items: center;
+}
+.dropdown.active:hover,
+.dropdown.active {
+  box-shadow: var(--shadow100);
+  border-radius: 5px;
+}
+
+.dropdown.active:focus-within{
+	outline:none;
+	border: 1.5px solid var(--light-point);
+}
+
+.dropdown .dropdown-menu {
+  z-index: 10;
+  position: absolute;
+  background-color: #fff;
+  width: 100%;
+  top: 50px;
+  left: 0;
+  box-shadow: var(--shadow100);
+  border: 1.5px solid var(--light-point);
+  border-radius: 5px;
+  display: none;
+}
+.dropdown .dropdown-menu > li {
+  padding: 10px 15px;
+  cursor: pointer;
+  text-align: center;
+}
+
+.dropdown .dropdown-menu > li:hover {
+  background-color: var(--light-stroke);
+}
+
+/* --------- 검색 div ----------- */
+
+#searchdiv {
+	border: 1.5px solid var(--light-stroke);
+	border-radius: 5px;
+	width: 250px;
+	height: 45px;
+	display:flex;
+	align-items: center;
+}
+
+#searchdiv:hover {
+	border: 1.5px solid var(--light-point);
+}
+
+#searchdiv:focus {
+	border: 1.5px solid var(--light-point);
+}
+
+#searchimg{
+	width:25px;
+	margin-left: 10px;
+}
+
+#keyword{
+	width: 205px;
+	height: 45px;
+	padding: 20px 5px;
+}
+
+#searchbtn{
+	width: 70px;
+ 	height:43px;
+	display:flex;
+	align-items: center;
+	justify-content: center;
+	border: 1px solid var(--light-point);
+	background-color: var(--light-stroke);
+	border-radius: 5px;
+	margin-left: 10px;
+	font:var(--button14);
+}
+
+#searchbtn img{
+	width:60%;
+}

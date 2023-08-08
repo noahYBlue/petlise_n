@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="board.notice.NoticeDAO">
+
+	<!-- Retrieve a list of pet places by category -->
+	<select id="getNoticeList" resultType="board.notice.NoticeDTO">
+		SELECT *
+		FROM noticeBoard n
+	
+	</select>
+
+	<!-- Pagination -->
+	<select id="getAllNoticePaging" resultType="board.notice.NoticeDTO" parameterType="pagination.SearchDTO">
+		SELECT *
+		FROM noticeBoard n
+		   LEFT JOIN user u ON n.user_id = u.user_id
+		  <where>
+            
+            <if test="keyword != null and keyword != ''">
+                AND title LIKE CONCAT('%', #{keyword}, '%')
+            </if>
+         
+        </where>
+		LIMIT #{pagination.limitStart}, #{recordSize}
+	</select>
+
+	<select id="getCount" resultType="int" parameterType="pagination.SearchDTO">
+		SELECT COUNT(*)
+		FROM noticeBoard
+		<where>
+            
+            <if test="keyword != null and keyword != ''">
+                AND title LIKE CONCAT('%', #{keyword}, '%')
+            </if>
+   
+        </where>
+	</select>
+
+
+<select id="getUserInfoNoticeboard" resultType="userdto"  parameterType="string">
+		SELECT * FROM `user` WHERE `user_id` = #{user_id};
+	</select>
+<select id="findnotice" parameterType="string" resultType="board.notice.NoticeDTO">
+       SELECT *
+        FROM noticeBoard n 
+        LEFT JOIN user u ON n.user_id = u.user_id
+        WHERE notice_id = #{notice_id}
+    </select>
+
+
+
+</mapper>

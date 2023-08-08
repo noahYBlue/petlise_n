@@ -1,0 +1,60 @@
+.contents {
+  padding: 30px 80px 80px !important;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.contents > input:first-of-type {
+  width: 100%;
+  height: 80px;
+  padding: 0 25px;
+  border: 2px solid var(--light-stroke);
+  border-radius: 10px;
+  margin-bottom: 30px;
+  font-size: 24px;
+}
+.contents > input:first-of-type:focus {
+  border-color: var(--light-main);
+}
+.contents > input:first-of-type::placeholder {
+  color: var(--gray3);
+  font-size: 24px;
+}
+
+.contents .fileWrap {
+  width: 100%;
+  margin-bottom: 30px;
+}
+.contents .fileWrap > p {
+  margin-bottom: 8px;
+}
+.contents .fileWrap > label {
+  display: inline-block;
+  cursor: pointer;
+  width: 100px;
+  height: 100px;
+  border: 2px solid var(--light-stroke);
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+.contents .fileWrap > label img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.contents .fileWrap #file {
+  display: none;
+}
+
+.editButton {
+  width: 250px;
+  height: 55px;
+  border-radius: 8px;
+  font: var(--button16);
+  background: var(--light-stroke);
+}

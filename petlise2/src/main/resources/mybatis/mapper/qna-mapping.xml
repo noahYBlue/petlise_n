@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="notice.qna.QnaDAO">
+	
+	<select id="findAllQna" parameterType="map" resultType="hashmap">
+		SELECT ( SELECT count(*) FROM qnaBoard q
+			LEFT JOIN user u
+			ON q.user_id = u.user_id
+			<if test="keyword != null and keyword != ''" >
+				WHERE (title like CONCAT('%', #{keyword}, '%')
+				OR u.name like CONCAT('%', #{keyword}, '%'))
+			</if> ) as 'count',
+		q.notice_id, q.category, q.title, q.qna_created as created_at, q.view_count, u.name
+		FROM qnaBoard q
+		LEFT JOIN user u
+		ON q.user_id = u.user_id
+		<if test="keyword != null and keyword != ''" >
+			WHERE (title like CONCAT('%', #{keyword}, '%')
+			OR u.name like CONCAT('%', #{keyword}, '%'))
+		</if>
+		ORDER BY qna_created DESC,
+		notice_id DESC
+		LIMIT 10 OFFSET #{page};
+	</select>
+
+	<insert id="insertQna" parameterType="qnarequestdto">
+		INSERT INTO qnaBoard ( user_id, title, contents, category, view_count )
+		VALUES ( #{user_id}, #{title}, #{contents}, #{category}, 0 )
+	</insert>
+	
+	<update id="updateQna" parameterType="Map">
+		UPDATE qnaBoard SET
+			title=#{title}, contents=#{contents}, category=#{category}
+		WHERE notice_id=#{notice_id}
+	</update>
+	
+	<select id="findQna" parameterType="string" resultType="qnarequestdto">
+		SELECT q.user_id, q.title, q.contents, q.category, q.qna_created as created_at, q.view_count, u.name
+		FROM qnaBoard q
+		LEFT JOIN user u
+		ON q.user_id = u.user_id
+		WHERE notice_id=#{notice_id}
+	</select>
+	
+	<delete id="updateViewCount" parameterType="string">
+		UPDATE qnaBoard SET view_count=view_count+1
+		WHERE notice_id=#{notice_id}
+	</delete>
+	
+	<delete id="deleteQna" parameterType="string">
+		DELETE FROM qnaBoard
+		WHERE notice_id=#{notice_id}
+	</delete>
+	
+	<select id="findAllComment" parameterType="string" resultType="hashmap">
+		SELECT comment_id, content, created_at
+		FROM qnaComment
+		WHERE notice_id=#{notice_id}
+		ORDER BY created_at DESC,
+		comment_id DESC;
+	</select>
+	
+	<insert id="insertComment" parameterType="string">
+		INSERT INTO qnaComment (notice_id, content)
+		VALUES ( #{notice_id}, #{content} )
+	</insert>
+	
+	<delete id="deleteComment" parameterType="string">
+		DELETE FROM qnaComment
+		WHERE comment_id=#{comment_id}
+	</delete>
+
+</mapper>

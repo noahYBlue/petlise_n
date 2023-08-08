@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="admin.notice.AdminNoticeDAO">
+
+	<insert id="insertNotice" parameterType="adminnoticerequestdto">
+		INSERT INTO noticeBoard ( user_id, title, contents, category, view_count )
+		VALUES ( #{user_id}, #{title}, #{contents}, #{category}, 0 )
+	</insert>
+	
+	<select id="findAllNotice" parameterType="adminfindallnoticerequestdto"
+		resultType="hashmap">
+		SELECT ( SELECT count(*) FROM noticeBoard n
+			LEFT JOIN user u
+			ON n.user_id = u.user_id
+	 		WHERE category=#{category}
+			<if test="keyword != null and keyword != ''" >
+				AND (title like CONCAT('%', #{keyword}, '%')
+				OR u.name like CONCAT('%', #{keyword}, '%'))
+			</if> ) as 'count',
+		n.notice_id, n.category, n.title, n.notice_created as created_at, n.view_count, u.name
+		FROM noticeBoard n
+		LEFT JOIN user u
+		ON n.user_id = u.user_id
+ 		WHERE category=#{category}
+		<if test="keyword != null and keyword != ''" >
+			AND (title like CONCAT('%', #{keyword}, '%')
+			OR u.name like CONCAT('%', #{keyword}, '%'))
+		</if>
+		ORDER BY notice_created DESC,
+		notice_id DESC
+		LIMIT 10 OFFSET #{page};
+	</select>
+	
+	<update id="updateNotice" parameterType="Map">
+		UPDATE noticeBoard SET
+			title=#{title}, contents=#{contents}, category=#{category}
+		WHERE notice_id=#{notice_id}
+	</update>
+	
+	<select id="findNotice" parameterType="string" resultType="adminnoticerequestdto">
+		SELECT title, contents, category
+		FROM noticeBoard
+		WHERE notice_id=#{notice_id}
+	</select>
+	
+	<delete id="deleteNotice" parameterType="string">
+		DELETE FROM noticeBoard
+		WHERE notice_id=#{notice_id}
+	</delete>
+	
+	<select id="findAllQnA" parameterType="map" resultType="hashmap">
+		SELECT ( SELECT count(*) FROM qnaBoard q
+			LEFT JOIN user u
+			ON q.user_id = u.user_id
+			<if test="keyword != null and keyword != ''" >
+				WHERE (title like CONCAT('%', #{keyword}, '%')
+				OR u.name like CONCAT('%', #{keyword}, '%'))
+			</if> ) as 'count',
+		q.notice_id, q.category, q.title, q.qna_created as created_at, q.view_count, u.name
+		FROM qnaBoard q
+		LEFT JOIN user u
+		ON q.user_id = u.user_id
+		<if test="keyword != null and keyword != ''" >
+			WHERE (title like CONCAT('%', #{keyword}, '%')
+			OR u.name like CONCAT('%', #{keyword}, '%'))
+		</if>
+		ORDER BY qna_created DESC,
+		notice_id DESC
+		LIMIT 10 OFFSET #{page};
+	</select>
+	
+	<delete id="deleteQnA" parameterType="string">
+		DELETE FROM qnaBoard
+		WHERE notice_id=#{notice_id}
+	</delete>
+
+</mapper>

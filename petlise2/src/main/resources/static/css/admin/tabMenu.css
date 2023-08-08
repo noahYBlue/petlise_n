@@ -1,0 +1,72 @@
+.tabMenu {
+  position: relative;
+  width: 100%;
+}
+.tabWrap {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: start;
+}
+.tabMenu .list {
+  display: flex;
+  align-items: center;
+  justify-content: left;
+  margin-bottom: 15px;
+}
+.tabMenu .list li {
+  min-width: 80px;
+  border: 1px solid var(--light-point);
+  border-radius: 20px;
+  margin-right: 5px;
+  text-align: center;
+}
+.tabMenu .list li.isOn {
+  background-color: var(--light-stroke);
+}
+.tabMenu .list li.isOn .btn {
+  font-weight: bold;
+}
+.tabMenu .list .btn {
+  font: var(--body16);
+  display: inline-block;
+  width: 100%;
+  height: 100%;
+  padding: 8px 15px;
+}
+
+.inputWrap {
+  width: 240px;
+  height: 40px;
+  border: 1px solid var(--light-point);
+  border-radius: 40px;
+  padding: 5px 15px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.inputWrap:focus-within {
+  border-color: var(--light-main);
+}
+#searchInput {
+  width: 100%;
+  height: 100%;
+}
+.inputWrap object {
+  margin-right: 8px;
+}
+
+.tabMenu .tabWrap .editButton {
+  display: inline-block;
+  min-width: 100px;
+  width: 100px;
+  height: 40px;
+  padding: 8px 15px;
+  text-align: center;
+  border: 1px solid var(--light-point);
+  border-radius: 20px;
+}
+.tabMenu .tabWrap .editButton:hover {
+  background-color: var(--light-stroke);
+  font-weight: bold;
+}

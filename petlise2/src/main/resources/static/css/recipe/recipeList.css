@@ -1,0 +1,341 @@
+.wrap {	
+  margin: 0;   
+  padding-bottom: 50px; 
+  min-width: 1240px;
+}
+
+.pet_icon {
+	display: flex;
+    justify-content: center;
+    margin-top: 80px;
+}
+
+.dog_icon img {
+  width: 75px;
+  height: 60px;
+}
+.cat_icon img {
+  width: 75px;
+  height: 60px;
+}
+
+
+
+.title_recipe {   
+    text-align: center;  
+    margin-top: -10px;
+    >span {
+      font: var(--heading24);
+    }
+}
+
+.subtitle_recipe {    
+    text-align: center; 
+    margin-top: 10px;
+    margin-bottom: 50px;
+    >span {
+      font: var(--heading18);
+    }
+}
+
+#search_container{
+  display: flex; 
+  justify-content: space-between;  
+  z-index: 92;
+  margin: 0 auto;
+  width:1240px;
+  min-width:1240px;  
+}
+
+
+
+.category { 
+
+  > a {
+    
+    border: 1px solid var(--light-sub);
+    border-radius: 25px;
+    font: var(--button14);
+    padding: 8px 20px;
+    transition: background-color 0.4s;
+  }
+
+  >a:hover {
+    background-color: var(--light-sub);
+  }
+  
+}
+
+.category a.on {
+  background-color: var(--light-sub); 
+  color: white; 
+}
+
+
+#noresult {
+	width:100%; 
+	height:300px; 
+	color: var(--light-point);
+	font-size:22px; 
+	text-align: center;
+	font-style: normal;
+	font-weight: 700;
+	line-height: 300px;	
+	display:flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+}
+
+
+
+
+#searchdiv{
+
+  position: relative;
+  
+  
+}
+
+
+#searchdiv > input {
+  width: 200px;
+  height: 30px;
+  border: 1px solid var(--gray4);
+  border-radius: 8px;
+  padding: 10px 12px;
+  
+}
+#searchdiv > input:focus {
+    border-color: var(--light-main);
+}
+
+#searchdiv img {
+  position : absolute;
+  width: 17px;
+  top: 8px;
+  right: 12px;
+  margin: 0;
+}
+
+
+#recipe_container {
+    width: 1240px;
+    margin: 0 auto;
+    margin-top: 20px;
+}
+
+.recipe-line {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    border-bottom: solid 1px var(--light-point);
+    border-top: solid 1px var(--light-point);
+}
+
+.recipe {
+    width: 290px;
+    height: 430px;
+    margin-left: 16px;
+    margin-bottom: 20px;
+    margin-top: 20px;
+    border-radius: 10px;
+    background-color: var(--light-stroke);
+    border: 1px solid var(--light-point);
+}
+
+
+.recipe:hover {
+    background: var(--light-sub, #FBC252);    
+
+    .recipe_cover{            
+      visibility:visible;
+      }
+    .recipelist_cover{            
+      visibility:visible;
+   }
+}
+
+
+  .recipe_img{
+      position: relative;
+      width: 290px;
+      height: 290px;
+      border-radius: 10px;
+      border: 1px solid var(--light-point);
+      margin: -1px -1px;
+      background-color: #ffffff;
+      background-size: cover;
+      background-repeat: no-repeat;
+      
+      >img {
+  		width: 55px;
+ 		height: 55px; 	
+ 		margin: 10px 0 0 10px;
+	  }      
+   }
+   
+  .recipelist_cover{
+      visibility:hidden;
+      width: 290px;
+      height: 290px;     
+      border-radius: 10px;
+      background: rgba(0, 0, 0, 0.20);      
+
+      >button {
+          position: absolute;
+          width: 55px;
+          height: 55px;
+          border-radius: 40px;
+          background-color: var(--dark-point);
+          background-image: url("/images/recipe/hit.svg");
+          background-repeat: no-repeat;
+          background-position: center;
+          left: 218px;
+          top: 218px;
+          
+
+        >img{
+            width: 30px;
+            height: 30px;
+            margin-top: 3px;
+            }
+      }
+  }
+        
+  .recipe_cover{
+      visibility:hidden;
+      width: 290px;
+      height: 290px;
+      margin-top: -71px;
+      border-radius: 10px;
+      background: rgba(0, 0, 0, 0.20);
+      
+
+      >button {
+          position: absolute;
+          width: 55px;
+          height: 55px;
+          border-radius: 40px;
+          background-color: var(--dark-point);
+          background-image: url("/images/recipe/hit.svg");
+          background-repeat: no-repeat;
+          background-position: center;
+          left: 218px;
+          top: 218px;
+
+        >img{
+            width: 30px;
+            height: 30px;
+            margin-top: 3px;
+            }
+      }
+  }
+  
+
+  .recipe_cover.active{
+      visibility:visible;
+      width: 290px;
+      height: 290px;
+      border-radius: 10px;
+      background: rgba(0, 0, 0, 0);
+
+      >button {
+          position: absolute;
+          width: 55px;
+          height: 55px;
+          border-radius: 40px;
+          background-color: var(--dark-point);
+          background-image: url("/images/recipe/hit_f.svg");
+          background-repeat: no-repeat;
+          background-position: center;
+          left: 218px;
+          top: 218px;
+
+        >img{
+            width: 30px;
+            height: 30px;
+            margin-top: 3px;
+            }
+      }
+  }
+
+
+#recipe_info {
+	margin: 13px 10px;
+	padding: 0px 10px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	height: 110px;
+	
+	
+}
+
+
+.info_title {
+	color: var(--light-text);
+	font: var(--highlight16);
+	margin-bottom: 5px;
+}
+    
+.info_content {
+	color: var(--gray2);
+	font: var(--body14);
+	margin-bottom: 5px;
+}
+    
+#info_bottom {
+	display: flex;
+	flex-direction: row;	
+}
+
+.info_writer {
+  color:  var(--light-point);
+  font: var(--highlight14);
+  margin-top: auto;
+  
+}
+
+.info_date {
+  color:  var(--light-point);
+  font: var(--caption12);
+  margin-left: auto;
+  margin-top: 2px;
+}
+
+.likes_num {
+  color: var(--light-point);
+  font-size: 11px;
+  margin-top: 34px;
+  font-weight: bold;
+}
+
+#recipe_write {
+  display: flex;
+  justify-content: flex-end;
+  margin: 0 auto;
+width:1240px;
+min-width:1240px;
+}
+
+.write button {
+  width: 170px;
+  height: 40px;
+  background-color: var(--light-sub);
+  border: none;
+  border-radius: 25px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font: var(--button16);
+  color: var(--light-text);
+  transition: color 0.3s;
+  margin-top: 10px;
+}
+
+.write button:hover {
+  color: var(--dark-text);
+}
+

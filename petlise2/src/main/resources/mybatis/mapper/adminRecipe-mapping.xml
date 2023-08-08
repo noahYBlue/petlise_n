@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="admin.recipe.AdminRecipeDAO">
+
+	<insert id="insertRecipe" parameterType="adminreciperequestdto">
+		INSERT INTO recipe(
+			user_id, recipe_title, recipe_contents, image,
+			recipe_category, pet_category, main_category,
+			sub_category, recipe_of_the_month
+		) VALUES (
+			#{user_id}, #{recipe_title}, #{recipe_contents}, #{image},
+			#{recipe_category}, #{pet_category}, #{main_category},
+			#{sub_category}, false
+		)
+	</insert>
+	
+	<update id="updateRecipe" parameterType="Map">
+		UPDATE recipe SET
+			recipe_title=#{recipe_title}, 
+			recipe_contents=#{recipe_contents}, 
+			main_category=#{main_category}, 
+			sub_category=#{sub_category}, 
+			image=#{image} 
+		WHERE recipe_id=#{recipe_id}
+	</update>
+	
+	<select id="findRecipe" parameterType="string" resultType="adminreciperequestdto">
+		SELECT recipe_title, recipe_contents, main_category, 
+			sub_category, image
+		FROM recipe 
+		WHERE recipe_id=#{recipe_id}
+	</select>
+
+	<select id="findAllRecipe" parameterType="adminfindallreciperequestdto"
+		resultType="hashmap">
+		SELECT ( SELECT count(*) FROM recipe r
+			LEFT JOIN user u
+			ON r.user_id = u.user_id
+			WHERE recipe_category=#{recipe_category}
+			AND pet_category=#{pet_category}
+			<if test="keyword != null and keyword != ''" >
+				AND (recipe_title like CONCAT('%', #{keyword}, '%')
+				OR u.name like CONCAT('%', #{keyword}, '%'))
+			</if> 
+			<if test="main_category != null and main_category != ''" >
+				AND main_category = #{main_category}
+			</if>
+	 		<if test="recipe_of_the_month == true" >
+				AND recipe_of_the_month = true
+			</if>) as 'count',
+			r.recipe_id, r.recipe_title, r.recipe_created_at, r.recipe_category,
+			r.pet_category, r.main_category, r.sub_category, r.recipe_of_the_month, u.name
+		FROM recipe r
+		LEFT JOIN user u
+		ON r.user_id = u.user_id
+ 		WHERE recipe_category=#{recipe_category}
+		AND pet_category=#{pet_category}
+		<if test="keyword != null and keyword != ''" >
+			AND (recipe_title like CONCAT('%', #{keyword}, '%')
+			OR u.name like CONCAT('%', #{keyword}, '%'))
+		</if>
+		<if test="main_category != null and main_category != ''" >
+			AND main_category = #{main_category}
+		</if>
+ 		<if test="recipe_of_the_month == true" >
+			AND recipe_of_the_month = true
+		</if>
+		ORDER BY recipe_created_at DESC,
+		recipe_id DESC
+		LIMIT 10 OFFSET #{page};
+	</select>
+	
+	<update id="updateRecipeOfTheMonth" parameterType="map">
+		UPDATE recipe SET recipe_of_the_month=#{recipe_of_the_month}
+		where recipe_id=#{recipe_id}
+	</update>
+	
+	<delete id="deleteRecipe" parameterType="string">
+		DELETE FROM recipe
+		WHERE recipe_id=#{recipe_id}
+	</delete>
+
+</mapper>

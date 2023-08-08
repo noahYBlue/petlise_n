@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="board.BoardDAO">
+
+
+
+<resultMap id="boarddto" type="board.BoardDTO">
+    <id property="seq" column="seq"/>
+    <result property="user_id" column="user_id"/>
+    <result property="board_title" column="board_title"/>
+<result property="board_contents" column="board_contents"/>
+    <result property="board_id" column="board_id"/>
+    <result property="board_view" column="board_view"/>
+   <result property="board_id" column="board_id"/>
+    <result property="user.name" column="name"/>
+    <association property="boardcomment" resultMap="boardcommentResultMap" />
+
+    <!-- UserDTO를 매핑하는 association -->
+    <association property="user" resultMap="userResultMap" />
+
+    <!-- boardLikeDTO 매핑 추가 -->
+    <association property="boardlike" resultMap="boardlikeResultMap" />
+        
+</resultMap>
+
+<!-- UserDTO의 resultMap -->
+<resultMap id="userResultMap" type="user.UserDTO">
+    <result property="user_id" column="user_id"/>
+    <result property="name" column="name"/>
+    <result property="profile_image" column="profile_image"/>
+
+    <!-- 다른 필드들도 필요하다면 추가 -->
+</resultMap>
+
+<!-- boardLikeDTO의 resultMap -->
+<resultMap id="boardlikeResultMap" type="board.BoardLikeDTO">
+    <result property="like_id" column="like_id" />
+    <result property="user_id" column="user_id" />
+    <result property="board_id" column="board_id" />
+    <result property="comment_id" column="comment_id" />
+    <result property="like_type" column="like_type" />
+    <result property="is_like" column="is_like" />
+    <result property="likes" column="likes" />
+</resultMap>
+
+<!-- boardCommentDTO의 resultMap -->
+<resultMap id="boardcommentResultMap" type="board.BoardCommentDTO">
+    <result property="comment_id" column="comment_id" />
+    <result property="user_id" column="user_id" />
+    <result property="board_id" column="board_id" />
+    <result property="comment_contents" column="comment_contents" />
+    <result property="parent_id" column="parent_id" />
+    <result property="comment_created_at" column="comment_created_at" />
+    <result property="comment_updated" column="comment_updated" />
+    <result property="deleted_at" column="deleted_at" />
+    
+     <association property="board" resultMap="boarddto" />
+     <association property="user" resultMap="userResultMap" />
+    <!-- 다른 필드들도 필요하다면 추가 -->
+</resultMap>
+
+    <!-- Pagination -->
+    
+    <select id="getAllCommentPaging" resultMap="boardcommentResultMap" parameterType="pagination.SearchDTO">
+    SELECT c.*, u.name, u.profile_image, b.board_id AS board_id  <!-- Add p.board_id here -->
+    FROM boardComment c
+    INNER JOIN board b ON b.board_id = c.board_id
+    INNER JOIN user u ON c.user_id = u.user_id
+	where c.board_id=#{searchType1} and c.deleted_at IS NULL
+    ORDER BY c.comment_created_at DESC
+    LIMIT #{pagination.limitStart}, #{recordSize}
+</select>
+
+<select id="getCCount" resultType="int" parameterType="pagination.SearchDTO">
+    SELECT COUNT(*)
+    FROM boardComment c
+    INNER JOIN board b ON b.board_id = c.board_id
+ 	where c.board_id=#{searchType1} and c.deleted_at IS NULL
+</select>
+    
+    
+    
+    
+    <select id="getAllBoardPaging" resultMap="boarddto" parameterType="pagination.SearchDTO">
+        SELECT *
+        FROM board b
+         LEFT JOIN user u ON b.user_id = u.user_id
+        <where>
+            
+            <if test="keyword != null and keyword != ''">
+                AND board_title LIKE CONCAT('%', #{keyword}, '%')
+            </if>
+            and b.deleted_at IS NULL
+        </where>
+        
+        ORDER BY board_created DESC
+        LIMIT #{pagination.limitStart}, #{recordSize}
+    </select>
+
+    <select id="getCount" resultType="int" parameterType="pagination.SearchDTO">
+        SELECT COUNT(*)
+        FROM board b
+        <where>
+            <choose>
+                
+                <otherwise>
+                    AND 1=1
+                </otherwise>
+            </choose>
+            <if test="keyword != null and keyword != ''">
+                AND board_title LIKE CONCAT('%', #{keyword}, '%')
+            </if>
+            and b.deleted_at IS NULL
+        </where>
+    </select>
+
+
+
+
+
+
+<insert id="insertBcomment" parameterType="board.BoardDTO">
+  INSERT INTO boardComment(user_id, board_id, comment_contents)
+    VALUES (#{user_id}, #{board_id},#{comment_contents});  
+  </insert>
+
+
+
+
+
+
+    <!-- Insert a new pet place -->
+    <insert id="insertBoard" parameterType="board.BoardDTO" >
+       INSERT INTO board ( board_view , user_id, board_title, board_contents)
+VALUES (0, #{user_id}, #{board_title}, #{board_contents});
+    <selectKey resultType="int" keyProperty="seq" order="AFTER">
+        SELECT LAST_INSERT_ID()
+    </selectKey>
+    </insert>
+
+<update id="viewCnt" parameterType="int">
+  UPDATE board SET board_view = board_view + 1 
+  WHERE seq = #{seq}
+</update>
+
+    
+    
+  <select id="findboard" parameterType="int" resultMap="boarddto">
+       SELECT *
+        FROM board b
+         LEFT JOIN user u ON b.user_id = u.user_id
+        WHERE seq = #{seq}
+    </select>
+
+<select id="getUserInfoBoard" resultType="userdto">
+		SELECT * FROM `user` WHERE `user_id` = #{user_id};
+	</select>
+
+
+<update id="updateDeleteAtCommnet" parameterType="String">
+		UPDATE boardComment
+		SET deleted_at = now()
+		WHERE comment_id=#{comment_id}
+	</update>
+
+<update id="deleteAllComment" parameterType="String">
+	 DELETE FROM boardComment
+		where board_id=#{board_id}
+	</update>
+
+
+
+
+    <update id="updateboard" parameterType="Map" useGeneratedKeys="true" keyProperty="seq">
+        UPDATE board SET
+        seq=#{seq}, board_title=#{board_title}, board_contents=#{board_contents}
+        WHERE seq=#{seq}
+    </update>
+
+  <update id="deleteBcomment" parameterType="String">
+	 DELETE FROM boardComment
+		
+		WHERE comment_id=#{comment_id} 
+	</update>
+    <delete id="deleteboard" parameterType="int">
+        DELETE FROM board
+        WHERE seq=#{seq}
+    </delete>
+
+</mapper>

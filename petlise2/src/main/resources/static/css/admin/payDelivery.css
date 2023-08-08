@@ -1,0 +1,421 @@
+#ordertitle {
+	width: 100%;
+	height: 50px;
+	display: flex;
+	justify-content: flex-start;
+	align-items: flex-end;
+	border-bottom: 1px solid var(--light-point);
+}
+
+#ordertitle button {
+	min-width: 120px;
+	height: 45px;
+	font: var(--heading18);
+	padding: 5px 15px;
+	border: 3px solid transparent;
+	cursor: pointer;
+}
+
+.activeCategory {
+	border-bottom: 3px solid var(--light-point);
+}
+
+#ordertitle button:hover {
+	border-bottom: 3px solid var(--light-point);
+}
+
+#ordertable {
+	width: 100%;
+	padding: 5px 0px;
+	overflow-x: scroll; /* 가로 스크롤 사용 */
+}
+
+#ordertable::-webkit-scrollbar {
+	height: 8px; /* 스크롤바의 너비 */
+}
+
+#ordertable::-webkit-scrollbar-thumb {
+	width: 50px; /* 스크롤바의 길이 */
+	background: var(--light-stroke); /* 스크롤바의 색상 */
+	border-radius: 10px;
+}
+
+#ordertable::-webkit-scrollbar-thumb:hover {
+	background: var(--light-point); /* 스크롤바의 색상 */
+}
+
+#keyword {
+	width: 300px;
+	height: 35px;
+	padding: 5px 10px;
+	border: 1.5px solid var(--light-stroke);
+	border-radius: 5px;
+	font: var(--body14);
+	color: var(--gray2);
+	margin-right: 10px;
+}
+
+#searchbtn, #searchreturn {
+	width: 80px;
+	height: 35px;
+	border: 1.5px solid var(--light-stroke);
+	background-color: var(--light-stroke);
+	border-radius: 5px;
+	font: var(--button14);
+	color: var(--light-text);
+	margin-right: 10px;
+	cursor: pointer;
+}
+
+#searchreturn {
+	width: 120px;
+}
+/* ---------- 기간검색 ----------  */
+#periodWrap {
+	width: 100%;
+	display: flex;
+	justify-content: left;
+	align-items: center;
+	padding: 10px 0px 0px 0px;
+}
+
+#periodWrap>span {
+	width: 100px;
+	height: 35px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font: var(--highlight14);
+}
+
+#periodWrap>input[type='text'] {
+	width: 160px;
+	height: 35px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	
+	border: 1.5px solid var(--light-stroke);
+	border-radius: 5px;
+	font: var(--body14);
+	color: var(--light-text);
+	padding: 0px 10px;
+}
+
+#periodWrap>input[type='button'] {
+	width: 50px;
+	height: 35px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	
+	border: 1.5px solid var(--light-stroke);
+	border-radius: 5px;
+	font: var(--button14);
+	color: var(--light-text);
+	margin-right: 10px;
+	padding: 0px 10px;
+	cursor: pointer;
+}
+
+#periodWrap>input[type='button']:hover{
+	background-color: var(--light-stroke);
+}
+
+/* ---------- 드롭박스 ----------  */
+.categoryWrap {
+	width: 100%;
+	display: flex;
+	justify-content: left;
+	align-items: center;
+	padding: 10px 0px 0px 0px;
+}
+
+.categoryWrap>span {
+	width: 100px;
+	height: 35px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font: var(--highlight14);
+}
+
+.dropdown {
+	position: relative;
+	width: 100px;
+	height: 35px;
+	border: 1.5px solid var(--light-stroke);
+	border-radius: 5px;
+	font: var(--body14);
+	color: var(--gray2);
+	margin-right: 10px;
+}
+
+.dropdown:hover {
+	border-color: var(--light-point);
+	background-color: var(--light-stroke);
+}
+
+.dropdown .select {
+	cursor: pointer;
+	padding: 5px 15px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.dropdown.active:hover, .dropdown.active {
+	box-shadow: var(--shadow100);
+	border-radius: 5px;
+}
+
+.dropdown.active:focus-within {
+	outline: none;
+	border: 1.5px solid var(--light-point);
+}
+
+.dropdown .dropdown-menu {
+	z-index: 10;
+	position: absolute;
+	background-color: #fff;
+	width: 100%;
+	top: 50px;
+	left: 0;
+	box-shadow: var(--shadow100);
+	border: 1.5px solid var(--light-point);
+	border-radius: 5px;
+	display: none;
+}
+
+.dropdown .dropdown-menu>li {
+	padding: 5px 15px;
+	cursor: pointer;
+	text-align: center;
+}
+
+.dropdown .dropdown-menu>li:hover {
+	background-color: var(--light-stroke);
+}
+
+/* ---------- 테이블 ----------  */
+#orderlist {
+	width: 100%;
+}
+
+#orderlist thead {
+	width: 100%;
+	background: var(--light-stroke);
+}
+
+#orderlist thead tr {
+	display: grid;
+	grid-template-columns: 176px 200px 120px 120px 120px 120px 150px 120px;
+}
+
+#orderlist thead th {
+	font: var(--highlight16);
+	height: 50px;
+	line-height: 50px;
+}
+
+#orderlist tbody {
+	width: 100%;
+	text-align: center;
+}
+
+#orderlist tbody tr {
+	display: grid;
+	grid-template-columns: 176px 200px 120px 120px 120px 120px 150px 120px;
+	border-bottom: 1px solid var(--light-point);
+}
+
+.list_tr:hover {
+	background-color: var(--light-stroke);
+	cursor: pointer;
+}
+
+#orderlist tbody td {
+	font: var(--body14);
+	min-height: 45px;
+	line-height: 45px;
+	padding: 0 5px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+#orderlist tbody td:first-of-type, #orderlist tbody td:last-of-type {
+	padding: 0 10px;
+}
+
+.no_data_msg {
+	grid-column: 1/9;
+	height: auto;
+}
+
+.no_data_msg td {
+	grid-column: 1/9;
+	height: 200px;
+}
+
+.no_data_msg>td>div {
+	width: 100%;
+	height: 200px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+#orderlist tbody .orderinfo {
+	grid-column-start: 1;
+	grid-column-end: 11;
+	background: rgba(222, 212, 199, 0.30);
+	display: none;
+}
+
+#orderlist tbody .orderinfo>td {
+	border-bottom: 1px solid var(--light-point);
+	height: auto;
+	padding: 10px 5px 20px 5px;
+	display: flex;
+	justify-content: space-evenly;
+}
+
+#grid_container {
+	display: grid;
+	grid-template-columns: 130px 400px 160px 370px;
+	/* grid-template-rows: repeat(6, minmax(35px, auto)); */
+	grid-template-rows: repeat(6, 1ff);
+}
+
+.griditem {
+	padding: 10px;
+	font: var(--body14);
+	display: flex;
+	align-items: center;
+}
+
+.griditem:nth-child(1) {
+	font: var(--highlight16);
+	grid-column: 1/3;
+	text-align: left;
+}
+
+.griditem:nth-child(2) {
+	font: var(--highlight16);
+	grid-column: 3/5;
+	text-align: left;
+}
+
+.griditem:nth-child(3), .griditem:nth-child(5), .griditem:nth-child(9),
+	.griditem:nth-child(11), .griditem:nth-child(13), .griditem:nth-child(15),
+	.griditem:nth-child(17) {
+	margin-left: 30px;
+}
+
+.griditem:nth-child(16), .griditem:nth-child(18) {
+	padding: 0px 10px;
+}
+
+.griditem:nth-child(7) {
+	align-items: flex-start;
+	margin-left: 30px;
+	grid-column: 1/2;
+	grid-row: 3/8;
+}
+
+.griditem:nth-child(8) {
+	padding: 0px;
+	grid-column: 2/3;
+	grid-row: 3/8;
+}
+
+#innergrid {
+	padding: 5px 10px 0px 10px;
+	display: grid;
+	grid-template-columns: 170px 70px 70px 70px;
+	grid-auto-rows: minmax(25px, auto);
+}
+
+.innergriditem {
+	font: var(--body14);
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	height: 25px;
+}
+
+.innergriditem:nth-child(1), .innergriditem:nth-child(2), .innergriditem:nth-child(3),
+	.innergriditem:nth-child(4) {
+	background-color: var(--light-stroke);
+	border-bottom: 1px solid var(--light-point);
+	height: 30px;
+}
+
+.innergriditem:nth-last-child(4), .innergriditem:nth-last-child(5),
+	.innergriditem:nth-last-child(6) {
+	border-top: 1px dashed var(--light-point);
+	height: 30px;
+}
+
+.innergriditem:nth-last-child(1), .innergriditem:nth-last-child(2),
+	.innergriditem:nth-last-child(3) {
+	border-top: 1px solid var(--light-point);
+	height: 30px;
+}
+
+.delivery_com, .delivery_id {
+	width: 200px;
+	height: 30px;
+	padding: 0px 10px;
+	border: 1.5px solid var(--light-point);
+	background-color: white;
+	border-radius: 5px;
+	font: var(--body14);
+	color: var(--gray2);
+}
+
+.delivery_com.exist, .delivery_id.exist {
+	width: 200px;
+	height: 30px;
+	padding: 0px 0px;
+	border: 1.5px solid transparent;
+	background-color: transparent;
+	border-radius: 5px;
+	font: var(--body14);
+	color: var(--light-text);
+}
+
+.insertdeliverybtn {
+	width: 100px;
+	height: 30px;
+	line-height: 30px;
+	border: 1.5px solid var(--light-point);
+	background-color: var(--light-point);
+	border-radius: 5px;
+	font: var(--body14);
+	color: white;
+	margin-left: 5px;
+	cursor: pointer;
+}
+
+.editdeliverybtn {
+	width: 100px;
+	height: 30px;
+	line-height: 30px;
+	border: 1.5px solid var(--light-point);
+	background-color: transparent;
+	border-radius: 5px;
+	font: var(--body14);
+	color: var(--light-text);
+	margin-left: 5px;
+	cursor: pointer;
+}
+
+.editdeliverybtn:hover {
+	background-color: var(--light-point);
+	color: white;
+}

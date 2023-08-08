@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="shop.detail.ProductReviewDAO">
+	
+	<resultMap type="userdto" id="user">
+		<result column="user_id" property="user_id" />
+		<result column="name" property="name" />
+		<result column="profile_image" property="profile_image" />
+	</resultMap>
+
+	<resultMap type="productreviewdto" id="productreviewdto">
+		<result column="review_id" property="review_id" />
+		<result column="product_id" property="product_id" />
+		<result column="user_id" property="user_id" />
+		<result column="contents" property="contents" />
+		<result column="score" property="score" />
+		<result column="created_at" property="created_at" />
+		<result column="review_img" property="review_img" />
+		<result column="likes" property="likes" />
+		<collection property="user" resultMap="user" />
+	</resultMap>
+
+	<select id="getProductReviews" parameterType="pagination.SearchDTO" resultMap="productreviewdto">
+		select *
+			<!-- p.review_id,p.product_id,p.user_id,p.contents,p.score,p.created_at,p.review_img,p.likes,
+			u.email, u.profile_image -->
+		from product_review as p 
+		inner join user as u 
+		on u.user_id = p.user_id 
+		where p.product_id=#{searchType1} and p.deleted_at is null
+		<if test="'photo'.equals( searchType3 )">
+			and review_img is not null
+		</if>
+		<choose>
+			<when test="'최신순'.equals(sortType) or sortType=='' or sortType==null">order by p.created_at desc </when>
+			<when test="'평점높은순'.equals(sortType)">order by p.score desc </when>
+			<when test="'평점낮은순'.equals(sortType)">order by p.score </when>
+			<when test="'후기추천순'.equals(sortType)">order by p.likes desc </when>
+		</choose>
+		limit #{pagination.limitStart}, #{recordSize}
+	</select>
+	
+	<select id="getCount" parameterType="pagination.SearchDTO" resultType="int">
+		select count(*)
+		from product_review as p 
+		inner join user as u 
+		on u.user_id = p.user_id 
+		where p.product_id=#{searchType1} and p.deleted_at is null
+		<if test="'photo'.equals( searchType3 )">
+			and review_img is not null
+		</if>
+	</select>
+
+	<select id="getCountAllPhotoReviews" parameterType="String" resultType="int">
+		select count(*)
+		from product_review
+		where product_id=#{product_id} and review_img is not null and deleted_at is null;
+	</select>
+
+	<select id="getCountAllReviews" parameterType="String" resultType="int">
+		select count(*)
+		from product_review
+		where product_id=#{product_id} and deleted_at is null;
+	</select>
+
+	<select id="getCountReviewsScore" parameterType="HashMap" resultType="int">
+		select count(*)
+		from product_review
+		where product_id=#{product_id} and score = #{score} and deleted_at is null;
+	</select>
+
+	<select id="getAvgReviews" parameterType="String" resultType="java.lang.Double">
+		select avg(score)
+		from product_review
+		where product_id=#{product_id} and deleted_at is null;
+	</select>
+	
+	<update id="deleteReview" parameterType="String">
+		UPDATE product_review
+		SET deleted_at = now()
+		WHERE review_id=#{review_id} 
+	</update>
+	
+	<!-- 좋아요 등록 +1 -->
+	<update id="likeUp" parameterType="String">
+		UPDATE product_review SET likes = likes + 1 where review_id=#{review_id};
+	</update>
+	<insert id="insertLike" parameterType="HashMap">
+		INSERT INTO product_review_like VALUES (#{user_id},#{review_id});
+	</insert>
+	
+	<!-- 좋아요 등록 -1 -->
+	<update id="likeDown" parameterType="String">
+		UPDATE product_review SET likes = likes - 1 where review_id=#{review_id};
+	</update>
+	<delete id="deleteLike" parameterType="HashMap">
+		delete from product_review_like where review_id=#{review_id} and user_id=#{user_id};
+	</delete>
+	
+	<!-- 좋아요 여부 검사 -->
+	<select id="isLikeReview" parameterType="HashMap" resultType="int">
+		select count(*) from product_review_like where review_id=#{review_id} and user_id=#{user_id};
+	</select>
+	
+	<!-- 해당 댓글 좋아요 수 -->
+	<select id="likeCntReview" parameterType="String" resultType="int">
+		select count(*) from product_review_like where review_id=#{review_id};
+	</select>
+	
+</mapper>

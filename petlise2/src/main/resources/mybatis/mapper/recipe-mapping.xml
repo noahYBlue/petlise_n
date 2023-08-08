@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="recipe.RecipeDAO">
+
+	<resultMap type="recipe.RecipeDTO" id="recipedto">
+		<result column="recipe_id" property="recipe_id" />
+		<result column="user_id" property="user_id" />
+		<result column="recipe_title" property="recipe_title" />
+		<result column="recipe_contents" property="recipe_contents" />
+		<result column="recipe_created_at" property="recipe_created_at" />
+		<result column="recipe_updated_at" property="recipe_updated_at" />
+		<result column="image" property="image" />
+		<result column="recipe_category" property="recipe_category" />
+		<result column="pet_category" property="pet_category" />
+		<result column="main_category" property="main_category" />
+		<result column="likes" property="likes" />
+		<result column="comments" property="comments" />
+		<result column="view_cnt" property="view_cnt" />
+		<result column="recipe_of_the_month"
+			property="recipe_of_the_month" />
+		<result column="sub_category" property="sub_category" />
+		<result column="recipe_of_the_month_registration_date"
+			property="recipe_of_the_month_registration_date" />
+		<collection property="user" resultMap="user" />
+	</resultMap>
+
+
+	<insert id="insertRecipe" parameterType="recipe.RecipeDTO">
+		INSERT INTO
+		recipe(recipe_id, user_id, recipe_title, recipe_contents,
+		recipe_created_at, recipe_updated_at,
+		image, recipe_category,
+		pet_category, main_category, sub_category,
+		recipe_of_the_month_registration_date,
+		view_cnt, recipe_of_the_month)
+		VALUES (#{recipe_id}, #{user_id}, #{recipe_title}, #{recipe_contents},
+		#{recipe_created_at}, #{recipe_updated_at},
+		#{image},
+		#{recipe_category}, #{pet_category}, #{main_category},
+		#{sub_category},
+		#{recipe_of_the_month_registration_date}, #{view_cnt},
+		#{recipe_of_the_month})
+	</insert>
+
+	<update id="updateUserPoint">
+		UPDATE user
+		SET point = point + #{amount}
+		WHERE user_id
+		= #{user_id}
+	</update>
+
+	<!-- 좋아요 등록 +1 -->
+	<update id="likeUp" parameterType="String">
+		UPDATE recipe SET likes =
+		likes + 1 WHERE recipe_id = #{recipe_id};
+	</update>
+
+	<insert id="insertLike" parameterType="HashMap">
+		INSERT INTO recipeLike
+		(user_id, recipe_id, is_like)
+		VALUES (#{user_id}, #{recipe_id}, true)
+		ON DUPLICATE KEY UPDATE is_like = true;
+	</insert>
+
+	<!-- 좋아요 등록 -1 -->
+	<update id="likeDown" parameterType="String">
+		UPDATE recipe SET likes =
+		likes - 1 WHERE recipe_id = #{recipe_id};
+	</update>
+
+	<delete id="deleteLike" parameterType="HashMap">
+		UPDATE recipeLike SET
+		is_like = false
+		WHERE recipe_id = #{recipe_id} AND
+		user_id =
+		#{user_id};
+	</delete>
+
+
+	<!-- 해당 레시피 좋아요 수 -->
+	<select id="likeCntRecipe" parameterType="String"
+		resultType="int">
+		SELECT likes FROM recipe WHERE recipe_id=#{recipe_id};
+	</select>
+
+
+	<!-- 해당 레시피를 사용자가 이미 좋아요 눌렀는지 확인 -->
+	<select id="isRecipeLiked" parameterType="map"
+		resultType="boolean">
+		SELECT COUNT(*) FROM recipeLike WHERE user_id = #{user_id} AND recipe_id =
+		#{recipe_id} AND is_like = true;
+	</select>
+
+
+
+	<update id="recipeViewCount">
+		UPDATE recipe
+		SET view_cnt = view_cnt + 1
+		WHERE recipe_id = #{recipeId}
+	</update> 
+
+	<!-- 레시피 상세 정보 가져오기 -->
+	<select id="getRecipeDetailById" parameterType="string"
+		resultType="recipe.RecipeDTO">
+		SELECT recipe_id, recipe_title, recipe_contents, view_cnt, likes, image,
+		user_id, recipe_created_at
+		FROM recipe
+		WHERE recipe_id = #{recipeId}
+	</select>
+
+	<update id="updateRecipeOfMonth" parameterType="map">
+		UPDATE recipe SET recipe_of_the_month = #{value} WHERE recipe_id =
+		#{recipe_id}
+	</update>
+
+    
+</mapper>

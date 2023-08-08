@@ -1,0 +1,65 @@
+#pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+#pagination .pagefirst,
+#pagination .pagelast,
+#pagination .prev,
+#pagination .next,
+#pagination .pageNumber {
+  width: 25px;
+  height: 25px;
+  border-radius: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+#pagination .prevArrow,
+#pagination .nextArrow {
+  height: 8px;
+  width: 8px;
+  border: solid var(--light-point);
+  border-width: 2px 2px 0 0;
+}
+
+.pageNumber {
+  font: var(--body14);
+  margin-right: 10px;
+  border-radius: 50% !important;
+}
+.pageNumber.active {
+  background-color: var(--light-stroke);
+}
+.pageNumber:last-of-type {
+  margin-right: 0 !important;
+}
+
+.pagefirst,
+.prev {
+  margin-right: 10px;
+  background-color: var(--white);
+  border: 1px solid var(--light-stroke);
+}
+.pagefirst {
+	margin-right: 3px;
+}
+.prevArrow {
+  transform: rotate(-135deg);
+  margin-left: 3px;
+}
+
+.pagelast,
+.next {
+  margin-right: 3px;
+  border: 1px solid var(--light-stroke);
+}
+.nextArrow {
+  transform: rotate(45deg);
+  margin-right: 3px;
+}
+
+#pagination *:hover{
+	background-color: var(--light-stroke);
+}

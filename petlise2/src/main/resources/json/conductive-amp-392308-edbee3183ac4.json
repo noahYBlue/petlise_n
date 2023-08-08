@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "conductive-amp-392308",
+  "private_key_id": "edbee3183ac4b753ccd48d44b5a9a6f87799b7c7",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQDkL9Tyxzpu0UUq\n1psRIm68tvkd52ATCMdlfWQUQq4GXkHMpw/lY5joq/g7QiupVKfO1hEybJuBJkpk\njWkqJdwg2KoyIigZXJOcPicgNWqL4C0y+ouDRuyaZadOVzAQCbWymkysFfACcK1L\nJo5Sc5I5qRnqSBy2lGG6Lmxl3tJpx/Seeb4sxV2hSvjm2coFL0i9oB3iryBvOd1w\nCt0XEzuDknW1mvyp7cgHhqONnI1vO4zYJ6FKDP4ZCsG66XKZ1q7LOD2kHxr2gzSi\nz14R2ikpeRFjQLUAdDnfAtxUjW6vb03gkNN/Aa1kbJtd6M5pSpxhY2lCDc03HujX\nEus1vLvRAgMBAAECggEATR1tFe8GbFUEzwlftlawnc4oOlbrPQOGf2H05HP0Y+qO\nyh7bXGZgUqFrbntaTgtx+pCVlzjlBKxwD7NKixfoYKFYQ0EP1CJZMEBA8L2cmFDW\ndZf+dgsOAs+/ztXgREtDwGws5Ss0xV5W8kLBblPoYtwnCen86icTL9xofbTj3yM0\nxzz6KY/DNxHiQrQcwgY9ZkDgW/zl++bIU1HxSdWHCYgG+ht/rm3tS32StAAXc+xY\n/AXP5orbPvZuf+2VmTG7GW+4l9AOdNBrDagTPXQOIKmFHaomcnsPpOb5Gu6oDnIM\nXkLKTbFdc8tVWyy2Cvk3VrANN332VWfcy0l0T54QkQKBgQDytUGy9a6g5IFittjL\nT7p3TDnc6SMYQ0UNbqN9oZ3xD+zlrl3kIF+ZPDcqUL4HwZELwadZfwVKn+ZCsmKk\nmtOEcmB28eRzqr/wgf51dvWkQ+SjiM5s+QZqF7mAPyYOLpDLr3x+8I6JcPJXl60Y\nTXnuGhqI4nGuSoCW49dRXqxpzwKBgQDwrv1PVdvTXA1lrkn1h5p1qXSaPlRL8S75\nCY+i0zBkNxcnmzTYbyMPkc7S9enPSI28ZwJWuQNVmKexTyAliDKZOhB7emqqMtr8\nZQWbAYqNQcZ6/klc08SF2ZyDITJD6vPtxpCl7Gbl7/RnHVx6PRzNWV6PvvRoTj16\n1MjaDB0IXwKBgEzKGkpDvwd6pJEV5suUoxthi6EgRhFEH1HbonB6NN1zO3GD1IL7\n1yNFUPLbbvRHQtvkXk1LieINay3JALqxnaB3C5w2diA+ctHmXxrNE3TwYiN3glAq\nDeR9MxynXiP4ialYEVycQYysppAeFg7tXFl/+ss6UdtiCQM0fQhqmsQzAoGAf35y\nuL/mfoPYpPA6RVHbxFBLcBlsVf4gv9MMv1fX3n5ASb6xs6TLkcfPI3kYrbDlQ9Pd\nLUs8NO90hTxA7yDCjOBxMreaISZnUiPBYGbkmgcpuKVS/1U+WRj5C41eLxQauu3g\nWcRsjYkakjS/dBFDXJPmv4aLuWUYtCRbcQXRq0kCgYEAw/FpmczuvhpOApA2y7Yy\nupa7T15RcRxdZFbYYADJrgx3wl8LUH+aFX451xkYCNYusAsKld2IMP37kAqZx8WO\ncAenj9O2kNrDX3vxJDIR+iA+aRMxp+2pgnAkvPBRhwYiqP2/UT9Lq2lD97O32Lbt\nlRNZ9N/eLwMEB89wq/A1Bv8=\n-----END PRIVATE KEY-----\n",
+  "client_email": "kong-638@conductive-amp-392308.iam.gserviceaccount.com",
+  "client_id": "114802786775175658391",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/kong-638%40conductive-amp-392308.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}

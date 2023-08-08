@@ -1,0 +1,6 @@
+.loginWrapper .tabMenu a:first-of-type {
+  color: var(--light-point) !important;
+}
+.loginWrapper .tabMenu a:last-of-type {
+  color: var(--light-text) !important;
+}

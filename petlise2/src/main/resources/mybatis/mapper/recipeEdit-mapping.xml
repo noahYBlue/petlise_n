@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="recipe.edit.RecipeEditDAO">
+
+	<!-- 편집할 내용 불러오기 -->
+	<select id="getRecipeEdit" parameterType="recipedto">
+		SELECT * FROM `recipe` WHERE `recipe_id` = #{recipe_id};
+	</select>
+	
+	<!-- 레시피 내용 편집 -->
+	<update id="updateLastRecipe" parameterType="recipedto">
+		UPDATE `recipe`
+		SET    `recipe_title` = #{recipe_title}, `recipe_contents` = #{recipe_contents},
+			   `main_category` = #{main_category}, `pet_category` = #{pet_category},
+			   `sub_category` = #{sub_category}, `image` = #{image}
+		WHERE  `recipe_id` = #{recipe_id};
+	</update>
+</mapper>

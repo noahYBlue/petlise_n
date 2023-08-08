@@ -1,0 +1,51 @@
+/*페이지*/
+
+      .page {
+        display: flex;
+        justify-content: center;
+        margin-top: 1em;
+        padding-top: .5em;
+      }
+      
+      .pagination {       
+        display: flex;
+        margin-bottom: 150px;
+      }
+      
+      .precious {
+        width: 20px;
+        height: 20px;
+        background-image: url("/images/recipe/page_back.svg");
+        background-repeat: no-repeat;
+        background-position: center;
+        margin-top: 3px;
+        
+      }
+      
+      .next {
+        width: 20px;
+        height: 20px;
+        background-image: url("/images/recipe/page_next.svg");
+        background-repeat: no-repeat;
+        background-position: center;
+        margin-top: 3px;
+      }
+      
+      .number a {        
+        padding: 8px 10px;
+        font: var(--button14);
+      }
+      
+      .number a:hover {
+        background-image: url("/images/recipe/page_hover.svg");
+        background-repeat: no-repeat;
+        background-position: center;
+       
+      }     
+      
+      .pagination a[aria-current="page"] {
+        background-image: url("/images/recipe/page_hover.svg");
+        background-repeat: no-repeat;
+        background-position: center;
+      }
+      

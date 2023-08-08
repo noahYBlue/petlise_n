@@ -1,0 +1,153 @@
+body {
+  height: 110% !important;
+}
+
+.container {
+  width: 1240px;
+  margin: 50px auto;
+  padding: 55px 60px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  border: 3px solid var(--light-main);
+  background-color: #fff2da;
+  border-radius: 20px;
+}
+
+.dogImage a img {
+  width: 515px;
+  margin-bottom: 75px;
+}
+.dogImage img:last-of-type {
+  width: 550px;
+}
+
+.loginWrapper {
+  font: var(--heading34);
+  min-width: 500px;
+  width: 500px;
+  padding: 35px 50px;
+  border-radius: 20px;
+  background-color: var(--white);
+}
+.loginWrapper .loginform > p {
+  text-align: center;
+  font: var(--heading24);
+  color: var(--light-point);
+  margin-bottom: 30px;
+}
+.loginWrapper .loginform > div {
+  margin-bottom: 10px;
+}
+.loginWrapper .loginform > div p {
+  font: var(--highlight16);
+  color: var(--light-point);
+}
+
+.loginWrapper .loginform > div input {
+  width: 100%;
+  height: 50px;
+  border: 1px solid var(--gray4);
+  border-radius: 8px;
+  padding: 0 15px;
+}
+.loginWrapper .loginform > div input:focus {
+  border-color: var(--light-main);
+}
+.loginWrapper .loginform button {
+  width: 100%;
+  height: 50px;
+  border-radius: 8px;
+  background-color: var(--light-sub);
+  margin-top: 12px;
+  font: var(--body14);
+}
+.loginWrapper .loginform button:hover {
+  background-color: var(--light-main);
+}
+
+.findlink {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  margin-top: 12px;
+}
+.findlink a {
+  font: var(--body14);
+}
+.findlink a:hover {
+  font: var(--button14);
+}
+.findlink span {
+  width: 1px;
+  height: 15px;
+  background-color: var(--gray1);
+  margin: 0 10px;
+}
+
+.line {
+  width: 100%;
+  height: 1px;
+  background-color: var(--light-stroke);
+  margin: 22px 0;
+}
+
+.snsWrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 30px;
+}
+.snsWrapper > p {
+  width: 100%;
+  text-align: center;
+  font: var(--body14);
+  margin-bottom: 15px;
+}
+.snsWrapper a {
+  width: 275px;
+  height: 40px;
+  border-radius: 3px;
+  padding: 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #df4f3d;
+  color: var(--white);
+  box-shadow: var(--shadow200);
+}
+.snsWrapper a:hover span {
+  font: var(--button14);
+}
+.snsWrapper a object {
+  height: 24px;
+  margin-right: 8px;
+}
+.snsWrapper a span {
+  width: 100%;
+  text-align: center;
+  font: var(--body14);
+}
+
+.movetosignup {
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.movetosignup span {
+  font: var(--body14);
+  margin-right: 5px;
+}
+.movetosignup a {
+  font: var(--button14);
+  color: var(--light-main);
+}
+.errorMessage {
+  font: var(--body14);
+  color: red;
+  margin-bottom: 0 !important;
+}

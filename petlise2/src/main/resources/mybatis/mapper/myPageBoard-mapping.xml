@@ -1,0 +1,271 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mypage.board.MyBoardDAO">
+	<update id="pointDown" parameterType="String">
+		UPDATE `user`
+		SET point = point-100
+		where user_id = #{user_id}
+	</update>
+
+<!-- 자유게시판 -->		
+	<select id="getMyBoard" parameterType="pagination.SearchDTO" resultType="mypage.board.MyBoardDTO">
+		select * 
+		from `board`
+		where user_id = #{searchType1} and deleted_at is null
+		<if test="keyword != null and keyword != ''">
+			and board_title LIKE CONCAT('%', #{keyword}, '%')
+		</if>
+		order by `board_created` desc
+		limit #{pagination.limitStart}, #{recordSize}
+	</select>
+	
+	<select id="getMyBoardCount" parameterType="pagination.SearchDTO" resultType="int">
+		select count(*)
+		from `board`
+		where user_id = #{searchType1} and deleted_at is null
+		<if test="keyword != null and keyword != ''">
+			and board_title LIKE CONCAT('%', #{keyword}, '%')
+		</if>
+	</select>
+
+	<select id="getMyBoardlike" parameterType="String" resultType="int">
+		select count(*)
+		from `boardlike`
+		where board_id = #{board_id}
+	</select>
+
+	<update id="deleteMyBoard" parameterType="String">
+		UPDATE `board`
+		SET deleted_at = now()
+		where board_id = #{board_id}
+	</update>
+	
+<!-- 펫플레이스 -->	
+	<select id="getMyPetPlace" parameterType="pagination.SearchDTO" resultType="mypage.board.MyPetPlaceDTO">
+		select * 
+		from `petPlace`
+		where user_id = #{searchType1} and deleted_at is null
+		<if test="keyword != null and keyword != ''">
+			and title LIKE CONCAT('%', #{keyword}, '%')
+		</if>
+		order by `petplace_created` desc
+		limit #{pagination.limitStart}, #{recordSize}
+	</select>
+	
+	<select id="getMyPetPlaceCount" parameterType="pagination.SearchDTO" resultType="int">
+		select count(*)
+		from `petPlace`
+		where user_id = #{searchType1} and deleted_at is null
+		<if test="keyword != null and keyword != ''">
+			and title LIKE CONCAT('%', #{keyword}, '%')
+		</if>
+	</select>
+	
+	<select id="getMyPetPlacelike" parameterType="String" resultType="int">
+		select count(*)
+		from `petplacelike`
+		where place_id = #{place_id}
+	</select>
+	
+	<update id="deleteMyPetPlace" parameterType="String">
+		UPDATE `petPlace`
+		SET deleted_at = now()
+		where place_id = #{place_id}
+	</update>
+	
+<!-- 내가 쓴 레시피 -->	
+	<select id="getMyWriteRecipe" parameterType="pagination.SearchDTO" resultType="mypage.board.MyRecipeDTO">
+		select * 
+		from `recipe`
+		where user_id = #{searchType1}
+		<if test="keyword != null and keyword != ''">
+			and recipe_title LIKE CONCAT('%', #{keyword}, '%')
+		</if>
+		<choose>
+			<when test="searchType2 != null and searchType2 != '' and searchType2 != '전체'">
+				<choose>
+					<when test="searchType3 != null and searchType3 != '' and searchType3 != '전체'">
+						and pet_category = #{searchType2}
+						and main_category = #{searchType3}
+					</when>
+					<otherwise>
+						and pet_category = #{searchType2}
+					</otherwise>
+				</choose>
+			</when>
+			<otherwise>
+				<if test="searchType3 != null and searchType3 != '' and searchType3 != '전체'">
+					and main_category = #{searchType3}
+				</if>
+			</otherwise>
+		</choose>
+		order by `recipe_created_at` desc
+		limit #{pagination.limitStart}, #{recordSize}
+	</select>
+	
+	<select id="getMyWriteRecipeCount" parameterType="pagination.SearchDTO" resultType="int">
+		select count(*)
+		from `recipe`
+		where user_id = #{searchType1}
+		<if test="keyword != null and keyword != ''">
+			and recipe_title LIKE CONCAT('%', #{keyword}, '%')
+		</if>
+		<choose>
+			<when test="searchType2 != null and searchType2 != '' and searchType2 != '전체'">
+				<choose>
+					<when test="searchType3 != null and searchType3 != '' and searchType3 != '전체'">
+						and pet_category = #{searchType2}
+						and main_category = #{searchType3}
+					</when>
+					<otherwise>
+						and pet_category = #{searchType2}
+					</otherwise>
+				</choose>
+			</when>
+			<otherwise>
+				<if test="searchType3 != null and searchType3 != '' and searchType3 != '전체'">
+					and main_category = #{searchType3}
+				</if>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<delete id="deleteMyWriteRecipe" parameterType="String">
+		delete from `recipe` where recipe_id = #{recipe_id};
+	</delete>
+
+	<delete id="deleteMyWriteRecipelike" parameterType="String">
+		delete from `recipeLike` where recipe_id = #{recipe_id};
+	</delete>
+
+<!-- 좋아요 레시피 -->	
+	<resultMap type="mypage.board.MyRecipeDTO" id="recipemap">
+		<result column="recipe_id" property="recipe_id" />
+		<result column="r_user_id" property="user_id" />
+		<result column="recipe_title" property="recipe_title" />
+		<result column="recipe_contents" property="recipe_contents" />
+		<result column="image" property="image" />
+		<result column="recipe_category" property="recipe_category" />
+		<result column="pet_category" property="pet_category" />
+		<result column="main_category" property="main_category" />
+		<result column="sub_category" property="sub_category" />
+		<result column="view_cnt" property="view_cnt" />
+		<result column="recipe_of_the_month" property="recipe_of_the_month" />
+		<result column="likes" property="likes" />
+		<result column="recipe_of_the_month_registration_date" property="recipe_of_the_month_registration_date" />
+		<result column="recipe_created_at" property="recipe_created_at" />
+		<result column="recipe_updated_at" property="recipe_updated_at" />
+	</resultMap>
+
+	<resultMap type="mypage.board.MyRecipeLikeDTO" id="myrecipelikemap">
+		<result column="like_id" property="like_id" />
+		<result column="recipe_id" property="recipe_id" />
+		<result column="l_user_id" property="user_id" />
+		<result column="comment_id" property="comment_id" />
+		<result column="like_type" property="like_type" />
+		<result column="is_like" property="is_like" />
+		<collection property="recipe" resultMap="recipemap" />
+	</resultMap>
+
+	<select id="getMyLikeRecipe" parameterType="pagination.SearchDTO" resultMap="myrecipelikemap">
+		select 
+			r.recipe_id, r.user_id as r_user_id, r.recipe_title, r.recipe_contents,r.image,
+			r.recipe_category, r.pet_category, r.main_category, r.sub_category, r.view_cnt,
+			r.recipe_of_the_month, r.likes, r.recipe_of_the_month_registration_date, 
+			r.recipe_created_at, r.recipe_updated_at,
+			l.like_id,l.recipe_id,l.user_id as l_user_id,
+			l.comment_id,l.like_type,l.is_like
+		from `recipeLike` l join recipe r on r.recipe_id = l.recipe_id
+		where l.user_id = #{searchType1} and is_like is true
+		<if test="keyword != null and keyword != ''">
+			and r.recipe_title LIKE CONCAT('%', #{keyword}, '%')
+		</if>
+		<choose>
+			<when test="searchType2 != null and searchType2 != '' and searchType2 != '전체'">
+				<choose>
+					<when test="searchType3 != null and searchType3 != '' and searchType3 != '전체'">
+						and r.pet_category = #{searchType2}
+						and r.main_category = #{searchType3}
+					</when>
+					<otherwise>
+						and r.pet_category = #{searchType2}
+					</otherwise>
+				</choose>
+			</when>
+			<otherwise>
+				<if test="searchType3 != null and searchType3 != '' and searchType3 != '전체'">
+					and r.main_category = #{searchType3}
+				</if>
+			</otherwise>
+		</choose>
+		order by r.`recipe_created_at` desc
+		limit #{pagination.limitStart}, #{recordSize}
+	</select>
+	
+	<select id="getMyLikeRecipeCount" parameterType="pagination.SearchDTO" resultType="int">
+		select count(*)
+		from `recipeLike` l join recipe r on r.recipe_id = l.recipe_id
+		where l.user_id = #{searchType1} and is_like is true
+		<if test="keyword != null and keyword != ''">
+			and r.recipe_title LIKE CONCAT('%', #{keyword}, '%')
+		</if>
+		<choose>
+			<when test="searchType2 != null and searchType2 != '' and searchType2 != '전체'">
+				<choose>
+					<when test="searchType3 != null and searchType3 != '' and searchType3 != '전체'">
+						and r.pet_category = #{searchType2}
+						and r.main_category = #{searchType3}
+					</when>
+					<otherwise>
+						and r.pet_category = #{searchType2}
+					</otherwise>
+				</choose>
+			</when>
+			<otherwise>
+				<if test="searchType3 != null and searchType3 != '' and searchType3 != '전체'">
+					and r.main_category = #{searchType3}
+				</if>
+			</otherwise>
+		</choose>
+	</select>
+	
+<!-- 내가 쓴 문의 -->		
+	<select id="getMyQnA" parameterType="pagination.SearchDTO" resultType="mypage.board.MyQnADTO">
+		select * 
+		from `qnaBoard`
+		where user_id = #{searchType1}
+		<if test="searchType2 != null and searchType2 != '' and searchType2 != '전체'">
+			and category = #{searchType2}
+		</if>
+		<if test="keyword != null and keyword != ''">
+			and title LIKE CONCAT('%', #{keyword}, '%')
+		</if>
+		order by `qna_created` desc
+		limit #{pagination.limitStart}, #{recordSize}
+	</select>
+	
+	<select id="getMyQnACount" parameterType="pagination.SearchDTO" resultType="int">
+		select count(*)
+		from `qnaBoard`
+		where user_id = #{searchType1}
+		<if test="searchType2 != null and searchType2 != '' and searchType2 != '전체'">
+			and category = #{searchType2}
+		</if>
+		<if test="keyword != null and keyword != ''">
+			and title LIKE CONCAT('%', #{keyword}, '%')
+		</if>
+	</select>
+
+	<select id="is_myQnaAnswer" parameterType="String" resultType="boolean">
+		select count(*)
+		from `qnaComment`
+		where notice_id = #{notice_id}
+	</select>
+
+	<delete id="deleteMyQna" parameterType="String">
+		delete from `qnaBoard` where notice_id = #{notice_id}
+	</delete>
+	
+	
+</mapper>

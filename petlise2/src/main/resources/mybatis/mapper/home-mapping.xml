@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="home.HomeDAO">
+
+	<resultMap type="recipe.list.RecipeListDTO" id="recipelistdtomap">
+	    <result column="recipe_id" property="recipe_id" />
+	    <result column="user_id" property="user_id" />
+	    <result column="recipe_title" property="recipe_title" />
+	    <result column="recipe_contents" property="recipe_contents" />
+	    <result column="recipe_created_at" property="recipe_created_at" />
+	    <result column="recipe_updated_at" property="recipe_updated_at" />
+	    <result column="image" property="image" />
+	    <result column="view_cnt" property="view_cnt"/>
+	    <result column="recipe_category" property="recipe_category" />
+	    <result column="pet_category" property="pet_category" />
+	    <result column="main_category" property="main_category" />
+	    <result column="sub_category" property="sub_category" />
+	    <result column="recipe_of_the_month_registration_date" property="recipe_of_the_month_registration_date" />
+	    <collection property="user" resultMap="user" />
+	</resultMap>
+	
+	<resultMap type="userdto" id="user">
+	    <result column="user_id" property="user_id" />
+	    <result column="name" property="name" />
+	</resultMap>
+
+	<select id="getBestExpertRecipes" resultMap="recipelistdtomap">
+		select * 
+		FROM recipe r
+	    JOIN user u ON r.user_id = u.user_id
+		where recipe_category="전문가레시피" 
+			and recipe_of_the_month is true
+			and recipe_created_at >= date_add(now(),interval -1 month)
+		order by likes desc 
+		limit 0,3;
+	</select>
+	<select id="getBestMyRecipes" resultMap="recipelistdtomap">
+		select * 
+		FROM recipe r
+	    JOIN user u ON r.user_id = u.user_id
+		where recipe_category="나만의레시피" 
+			and recipe_of_the_month is true
+			and recipe_created_at >= date_add(now(),interval -1 month)
+		order by likes desc 
+		limit 0,3;
+	</select>
+	
+	<select id="getBestProducts" resultType="home.HomeProductDTO">
+		select * from products where isvisible is true and reg_date <![CDATA[<=]]> now() order by sales desc;
+	</select>
+
+	<select id="getReviewAvgs" parameterType="String" resultType="Double">
+		select IFNULL(avg(score),0)
+		from product_review where product_id = #{product_id} and deleted_at is null;
+	</select>
+
+</mapper>
+
+
+
+
+
+

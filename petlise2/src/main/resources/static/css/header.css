@@ -1,0 +1,183 @@
+#header{
+	position: sticky;
+	z-index: 99;
+	width: 100%;
+	background-color:white;
+	border-bottom: 1px solid #BDBDBD;
+}
+
+.sticky {
+	position: fixed;
+	top: 0;
+	width: 100%;
+	z-index: 99;
+}
+
+.downactive {
+	position: fixed;
+	transform: translateY(-100%);
+	transition: transform 0.5s ease;
+}
+
+/* header */
+.header {
+	width: 100%;
+	min-width:1440px;
+	display:flex;
+	justify-content: center;
+	padding:5px 0px;
+}
+
+.header_container{
+	width:1440px;
+	display:flex;
+	justify-content: space-between;
+	align-items: center;
+	padding:0px 100px;
+}
+
+#header_logo img {
+	width: 212px;
+	height: 80px;
+	cursor: pointer;
+}
+
+/*네비 메뉴 가로나열*/
+.header-menu {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	gap:50px;
+}
+.header-menu>li {
+	line-height: 30px;
+	font: var(--heading18);
+	color: var(--light-text);
+	text-decoration: none;
+	background-repeat: no-repeat;
+	background-size: 0% 100%;
+	transition: background-size 0.8s;
+}
+
+.header-menu>li:hover {
+	background-size: 100% 100%;
+	background-image: linear-gradient(transparent 60%, var(--light-sub) 40%);
+}
+
+/*---헤더 우측 아이콘 박스---*/
+.header-item.item-right {
+	margin-top:10px;
+	display: flex;
+	justify-content: flex-end;
+	align-items: center;
+	gap:10px;
+}
+
+.header-icon-block{
+	min-width:45px;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	cursor: pointer;
+}
+
+.header-icon{
+	width: 30px;
+	height: 30px;
+	background-repeat: no-repeat;
+	background-position: center;
+}
+
+.header-icon-text{
+	font: var(--button12);
+}
+
+.header-icon-block:hover {
+	filter: invert(68%) sepia(64%) saturate(2664%) hue-rotate(2deg) brightness(108%) contrast(104%);
+}
+
+/* 헤더 리스트 */
+.header-list {
+	background-color: var(--light-sub);
+	width: 100%;
+	display: flex;
+	justify-content: center;
+	align-items:flex-start;
+	padding: 30px;
+	gap:40px;
+	position:absolute;
+	z-index: 3;
+}
+
+.header-list a:hover {
+	color: white;
+}
+
+.header-list-box{
+	width:800px;
+	display: flex;
+	justify-content: flex-end;
+	align-items:center;
+}
+
+.header-best-recipe,
+.header-shop-all,
+.header-list-title {
+	font:var(--heading18);
+	width:150px;
+	height: 30px;
+	display: flex;
+	align-items:flex-start;
+	justify-content: center;
+	margin-right: 50px;
+}
+
+.header-grid-dog,
+.header-grid-cat{
+	display: grid;
+	grid-template-columns: repeat(4,80px);
+	grid-template-rows: repeat(5,30px);
+	grid-auto-flow: column;
+	gap:10px;
+}
+
+.header-grid-dog>div,
+.header-grid-cat>div{
+	display: flex;
+	align-items: flex-start;
+}
+
+.header-grid-title{
+	grid-column: 1 / 5;
+	font:var(--heading18);
+}
+
+.header-grid-subtitle{
+	font:var(--highlight16);
+}
+
+/* shop list */
+.header-shop-grid-dog,
+.header-shop-grid-cat{
+	display: grid;
+	grid-template-columns: 80px;
+	grid-template-rows: repeat(5,30px);
+	grid-auto-flow: column;
+	gap:10px;
+}
+
+.header-shop-grid-dog>div,
+.header-shop-grid-cat>div{
+	display: flex;
+	align-items: flex-start;
+}
+
+.header-grid-title{
+	font:var(--heading18);
+}
+
+.header-community .header-list-title,
+.header-notice .header-list-title{
+	width:auto;
+}

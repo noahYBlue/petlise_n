@@ -1,0 +1,318 @@
+@font-face {
+    font-family: 'SBAggroB';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2108@1.1/SBAggroB.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+#home_layout{
+	width: 100%;
+	/* background: url('/images/home_background.svg') no-repeat;
+	background-position: top; */
+	
+	background: linear-gradient(-20deg, white 60%, #FFF2DA 40%);
+}
+
+#topWrap{
+	width: 100%;
+	padding:40px 0px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+#topWrap>img{
+	width: 550px;
+	height: 320px;
+}
+
+#topWrap>div{
+	font-family: 'SBAggroB';
+	font-size: 64px;
+	font-weight: 700;
+	line-height: 100px;
+	color: var(--light-main);
+	margin-left:40px;
+}
+
+#topWrap>div>img{
+	margin-bottom:-20px;
+	width: 70px;
+}
+
+.best.title{
+	width: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin-top: 20px;
+}
+
+.best.title.recipe>img{
+	height: 50px;
+}
+
+.best.title > span{
+	font:var(--heading34);
+	margin: 0px 5px;
+}
+
+.best.title.shop{
+	margin-top: 50px;
+	flex-direction: column;
+}
+
+.best.title.shop>img{
+	height: 100px;
+}
+
+.minibar{
+	margin:5px auto 50px;
+	background-color: var(--light-main);
+	width: 100px;
+	height: 10px;
+}
+
+#expert_recipeWrap{
+	margin:0 auto;
+	display: grid;
+	width: 1140px;
+	grid-template-columns: 500px 300px 300px;
+	grid-template-rows: 80px 300px;
+	gap: 20px 20px;
+}
+
+#expert_recipeWrap>div {
+	border:1px solid var(--light-main);
+	border-radius: 10px;
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: cover;
+	position: relative;
+	overflow: hidden;
+}
+
+#expert_recipeWrap>div:nth-child(2) {
+	grid-row: 1 / 3;
+}
+
+#expert_recipeWrap>div:nth-child(1) {
+	grid-column: 2 / 4;
+	display: flex;
+	justify-content: flex-start;
+	align-items: center;
+}
+
+#expert_recipeWrap>div:nth-child(1)>img{
+	width: 40px;
+	margin-left: 10px;
+}
+#expert_recipeWrap>div:nth-child(1)>span{
+	font:var(--heading24);
+	margin-left: 10px;
+}
+
+#my_recipeWrap{
+	margin:20px auto;
+	display: grid;
+	width: 1140px;
+	grid-template-columns: 300px 300px 500px;
+	grid-template-rows: 80px 300px;
+	gap: 20px 20px;
+}
+
+#my_recipeWrap>div {
+	border:1px solid var(--light-main);
+	border-radius: 10px;
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: cover;
+	position: relative;
+	overflow: hidden;
+}
+
+#my_recipeWrap>div:nth-child(1) {
+	grid-column: 1 / 3;
+	display: flex;
+	justify-content: flex-end;
+	align-items: center;
+}
+#my_recipeWrap>div:nth-child(1)>img{
+	width: 30px;
+	margin-right: 10px;
+}
+#my_recipeWrap>div:nth-child(1)>span{
+	font:var(--heading24);
+	margin-right: 10px;
+}
+#my_recipeWrap>div:nth-child(2) {
+	grid-column: 3 / 4;
+	grid-row: 1 / 3;
+}
+.recipe_cover{
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	background: rgba(31, 31, 31, 0.50);
+	z-index: 2;
+	display: flex;
+	justify-content: space-between;
+	align-items: flex-end;
+	padding:10px 20px;
+	opacity: 0;
+	visibility: hidden;
+	transition: 0.3s linear;
+}
+.recipe_cover>span{
+	font-family: 'SBAggroB';
+	font-size: 25px;
+	color: white;
+}
+
+.recipe_cover>span:nth-child(1){
+	margin-left: 70px;
+	color: var(--light-main);
+	width: 180px;
+	overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+}
+
+.recipe_rank{
+	font-family: 'SBAggroB';
+	font-size: 80px;
+	font-weight: 700;
+	line-height: 80px;
+	color: white;
+	position: absolute;
+	bottom:-15px; left:20px;
+	z-index: 3;
+}
+
+.bestrecipes:hover .recipe_cover {
+	opacity: 1;
+	visibility: visible;
+}
+.bestrecipes:hover .recipe_rank {
+	color: var(--light-main);
+}
+
+
+#shopWrap {
+	width:100%;
+	height: 400px;
+	margin: 0 auto;
+	background-color: #FFF2DA;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	gap:10px;
+}
+
+.productWrap{
+	width:250px;
+	height: 350px;
+	border:4px solid var(--light-sub);
+	border-radius: 10px;
+	background-color:white;
+	overflow:hidden;
+	display: flex;
+	flex-direction:column;
+	justify-content: space-between;
+	align-items: center;
+	padding-bottom: 20px;
+	position: relative;
+	cursor: pointer;
+}
+
+.productWrap>img{
+	width:250px;
+	height: 250px;
+}
+
+.productWrap>div{
+	font:var(--heading18);
+}
+
+.product_detail{
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	gap:5px;
+}
+
+.product_detail img{
+	width:25px;
+	height: 25px;
+}
+
+.product_rank {
+	width:100%;
+	height:40px;
+	position: absolute;
+	z-index: 2;
+	background-image: url(/images/halfcircle.svg);
+	background-position: center;
+	background-repeat: no-repeat;
+	text-align: center;
+	color: white;
+}
+
+.flip { 
+	width:250px;
+	height: 350px;
+	position: relative; 
+	perspective: 1100px;
+}
+
+.card {
+	width:250px;
+	height: 350px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	gap: 10px;
+	position: relative;
+	transition: 0.5s;
+	transform-style: preserve-3d;
+} 
+
+.front, .back {
+	position: absolute;
+	backface-visibility: hidden;
+}
+
+.back { 
+	width:250px;
+	height: 350px;
+	border-radius: 10px;
+	padding:5px;
+	background-color: var(--light-sub); 
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	transform: rotateY(-180deg);
+	cursor: pointer;
+}
+
+.back>div {
+	width:240px;
+	height: 340px;
+	border-radius: 10px;
+	background-color:transparent;
+	border:2px solid white;
+	display: flex;
+	flex-direction:column;
+	justify-content: center;
+	align-items: center;
+	gap:10px;
+}
+
+.back>div>div {
+	color: white;
+	text-align: center;
+}
+
+.flip:hover .card {
+	transform: rotateY(-180deg);
+}

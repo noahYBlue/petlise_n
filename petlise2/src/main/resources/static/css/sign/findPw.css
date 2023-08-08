@@ -1,0 +1,125 @@
+.container {
+  width: 1240px;
+  position: relative;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 55px 60px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  border: 3px solid var(--light-main);
+  background-color: #fff2da;
+  border-radius: 20px;
+}
+
+.dogImage img:first-of-type {
+  width: 515px;
+  margin-bottom: 75px;
+}
+.dogImage img:last-of-type {
+  width: 550px;
+}
+
+.loginWrapper {
+  font: var(--heading18);
+  min-width: 500px;
+  width: 500px;
+  height: 550px;
+  padding: 25px;
+  border-radius: 20px;
+  background-color: var(--white);
+}
+
+.loginWrapper .tabMenu {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-bottom: 1px solid var(--light-stroke);
+}
+.loginWrapper .tabMenu a {
+  width: 100%;
+  padding-bottom: 25px;
+  text-align: center;
+}
+.loginWrapper .tabMenu a:last-of-type {
+  color: var(--light-point);
+}
+.loginWrapper .tabMenu span {
+  width: 1px;
+  height: 50px;
+  background-color: var(--light-stroke);
+}
+
+.loginWrapper .loginform {
+  width: 100%;
+  height: calc(100% - 100px);
+  padding: 0 25px 25px;
+}
+.loginWrapper .loginform > div p {
+  font: var(--highlight16);
+  margin-bottom: 5px;
+}
+.loginWrapper .loginform > div input {
+  width: 100%;
+  height: 50px;
+  border: 1px solid var(--gray4);
+  border-radius: 8px;
+  padding: 0 15px;
+}
+.loginWrapper .loginform .divWrapper {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.loginWrapper .loginform .inputWrapper {
+  width: 100%;
+}
+.loginWrapper .loginform .inputWrapper div {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.loginWrapper .loginform .inputWrapper button {
+  width: 100%;
+  height: 50px;
+  border-radius: 8px;
+  font: var(--body14);
+  border: 1px solid var(--light-main);
+}
+.loginWrapper .loginform .inputWrapper button:hover {
+  background-color: var(--light-sub);
+}
+.loginWrapper .loginform .inputWrapper .checkEmail {
+  margin-bottom: 5px;
+}
+.loginWrapper .loginform .inputWrapper .checkEmail button {
+  min-width: 125px;
+  width: 125px;
+  margin-left: 5px;
+}
+.loginWrapper .loginform .inputWrapper .CertificationEmail button {
+  min-width: 190px;
+  width: 190px;
+  margin-left: 5px;
+}
+
+.loginWrapper .loginform .inputWrapper > input:first-of-type {
+  margin-bottom: 20px;
+}
+.loginWrapper .loginform > div input:focus {
+  border-color: var(--light-main);
+}
+.loginWrapper .loginform button {
+  width: 100%;
+  height: 50px;
+  border-radius: 8px;
+  font: var(--body14);
+}
+.loginWrapper .loginform > button {
+  background-color: var(--light-stroke);
+  font: var(--button14);
+}

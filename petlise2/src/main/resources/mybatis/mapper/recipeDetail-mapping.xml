@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="recipe.detail.RecipeDetailDAO">
+	
+	<!-- 유저 정보 호출 -->
+	<select id="getUserInfoRecipe" resultType="userdto">
+		SELECT * FROM `user` WHERE `user_id` = #{user_id};
+	</select>
+	
+	<!-- 유저 이름 호출 -->
+	<select id="getUserProfile" resultType="userdto">
+		SELECT * FROM `user` 
+		WHERE  `user_id` = (
+		          SELECT `user_id` 
+		          FROM   `recipe`
+		          WHERE  `recipe_id` = #{recipe_id}
+				);
+	</select>
+	
+	<!-- 레시피 게시글 불러오기 -->
+	<select id="getRecipeDetail" parameterType="String">
+		SELECT * FROM `recipe` WHERE `recipe_id` = #{recipe_id};
+	</select>
+	
+	<!-- 레시피 삭제 -->
+	<delete id="deleteMyRecipe" parameterType="map">
+		DELETE FROM `recipe` WHERE `recipe_id` = #{recipe_id} AND `user_id` = #{user_id};
+	</delete>
+	
+	<!-- 해당 레시피 댓글 불러오기 -->
+	<select id="getRecipeComment" parameterType="String">
+		SELECT rc.*, u.* 
+		FROM recipeComment rc 
+		JOIN user u ON rc.user_id = u.user_id 
+		WHERE rc.recipe_id = #{recipe_id}
+		ORDER BY rc.comment_created_at DESC;
+	</select>
+	
+	<!-- 댓글 작성하기 -->
+	<insert id="writeRecipeComment" parameterType="recipecommentdto">
+		INSERT INTO `recipeComment`(`recipe_id`, `user_id`, `comment_created_at`, `comment_contents`) 
+		VALUES  ( #{recipe_id}, #{user_id}, now(), #{comment_contents} );
+	</insert>
+	
+	<!-- 댓글 수정하기	-->
+	<update id="editComment" parameterType="recipecommentdto">
+		UPDATE `recipeComment` 
+		SET    `comment_contents` = #{comment_contents}, comment_image = #{comment_image} 
+		WHERE  `user_id` = #{user_id} AND `recipe_id` = #{recipe_id};
+	</update>
+	
+	<!-- 댓글 삭제하기 -->
+	<delete id="deleteRecipeComment" parameterType="map">
+		DELETE FROM `recipeComment` WHERE `comment_id` = #{comment_id} AND `user_id` = #{user_id};
+	</delete>
+	
+	<!-- 좋아요 레코드 확인 -->
+	<select id="checkLike" resultType="boolean">
+	    SELECT EXISTS(SELECT 1 FROM `recipeLike`
+	                WHERE `recipe_id` = #{recipe_id} AND `user_id` = #{user_id});
+	</select>
+		 
+	<!-- 좋아요 여부 -->
+	<select id="liked" resultType="boolean">
+		SELECT `is_like` 
+		FROM   `recipeLike` 
+		WHERE  `user_id` = #{user_id} AND `recipe_id` = #{recipe_id};
+	</select>
+	
+	<!-- 좋아요 수 업데이트 -->
+	<insert id="likeCount" parameterType="recipelikedto">
+		INSERT INTO `recipeLike` (`like_id`, `recipe_id`, `user_id`, `likes`, `is_like`) 
+		VALUES ( #{like_id}, #{recipe_id}, #{user_id}, #{likes}, #{is_like} );
+	</insert>
+	
+	<!-- 좋아요 수 수정 -->
+	<update id="updateLike" parameterType="recipelikedto">
+		UPDATE `recipeLike`  
+		SET    `is_like` = #{is_like}, `likes` = #{likes} 
+		WHERE  `recipe_id` = #{recipe_id} AND `user_id` = #{user_id};
+	</update>
+
+	<!-- 좋아요 합계 업데이트 -->
+	<update id="recipeLike" parameterType="recipedto">
+		UPDATE `recipe` 
+		SET    `likes` = #{likes}
+		WHERE  `recipe_id` = #{recipe_id};
+	</update>	
+	
+	<!-- 조회수 카운트 -->
+	<update id="incrementViewCount" parameterType="String">
+		UPDATE `recipe`
+		SET    `view_cnt` = `view_cnt` + 1
+		WHERE  `recipe_id` = #{recipe_id};
+	</update>
+	
+	<!-- 댓글 수 계산 -->
+	<update id="commentCnt" parameterType="String">
+		UPDATE `recipe`
+		SET `comments` = (
+		    SELECT COUNT(`comment_id`)
+		    FROM `recipeComment`
+		    WHERE `recipe_id` = #{recipe_id}
+			)
+		WHERE `recipe_id` = #{recipe_id};
+	</update>
+	
+</mapper>

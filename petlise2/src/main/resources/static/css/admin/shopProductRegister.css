@@ -1,0 +1,100 @@
+#layout{
+	display:flex;
+	justify-content: center;
+}
+
+.edit_images {
+	width:350px;
+}
+
+.edit_images .fileWrap {
+  width: 100%;
+  margin-bottom: 30px;
+}
+.edit_images .fileWrap > p {
+  margin-bottom: 8px;
+}
+.edit_images .fileWrap > label {
+  display: inline-block;
+  cursor: pointer;
+  width: 300px;
+  height: 300px;
+  border: 2px solid var(--light-point);
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+.edit_images .fileWrap input[type=file] {
+  display: none;
+}
+
+#fileimg1,#fileimg2 {
+	height: 300px;
+}
+
+.edit_detail {
+	width:500px;
+	margin-left:10px;
+	display:flex;
+	flex-direction: column;
+	justify-content: space-evenly;
+}
+
+/* input태그 */
+.Wrapper {
+  margin-bottom: 30px;
+}
+.Wrapper > p{
+  font: var(--body16);
+  color: var(--light-text, #1F1F1F);
+  margin-bottom: 10px;
+}
+.Wrapper input {
+	font: var(--body16);
+	width: 100%;
+	height: 45px;
+	border: 1px solid var(--light-stroke);
+	border-radius: 5px;
+	padding: 0 15px;
+}
+.Wrapper input:focus {
+  border-color: var(--light-point);
+}
+
+.Wrapper > div {
+	width: 100%;
+	display: flex;
+	align-items: center;
+}
+
+#btndiv{
+	width: 100%;
+	height: 55px;
+	display:flex;
+	justify-content:center;
+	margin-bottom:50px;
+}
+
+#cancelButton {
+	width: 200px;
+	height: 55px;
+	border-radius: 8px;
+	font: var(--button16);
+	border: 1px solid var(--light-stroke);
+	margin-right: 10px;
+}
+#editButton {
+	width: 200px;
+	height: 55px;
+	border-radius: 8px;
+	font: var(--button16);
+	background: var(--light-stroke);
+}
+
+#product_regtime{
+	width: 92%;
+	height: 45px;
+}

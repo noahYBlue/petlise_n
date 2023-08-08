@@ -1,0 +1,299 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="board.petplace.PetPlaceDAO">
+
+
+
+<resultMap id="petplacedto" type="board.petplace.PetPlaceDTO">
+    <id property="seq" column="seq"/>
+    <result property="user_id" column="user_id"/>
+    <result property="title" column="title"/>
+    <result property="category" column="category"/>
+    <result property="petplace_address" column="petplace_address"/>
+    <result property="petplace_contents" column="petplace_contents"/>
+    <result property="petplace_created" column="petplace_created"/>
+    <result property="view_count" column="view_count"/>
+    <result property="place_id" column="place_id"/>
+    <association property="petplacecomment" resultMap="petplacecommentResultMap" />
+
+    <!-- UserDTO를 매핑하는 association -->
+    <association property="user" resultMap="userResultMap" />
+
+    <!-- PetPlaceLikeDTO 매핑 추가 -->
+    <association property="petplacelike" resultMap="petplacelikeResultMap" />
+
+    <!-- PetPlaceCommentDTO 매핑 추가 -->
+</resultMap>
+
+<!-- UserDTO의 resultMap -->
+<resultMap id="userResultMap" type="user.UserDTO">
+    <result property="user_id" column="user_id"/>
+    <result property="name" column="name"/>
+    <result property="profile_image" column="profile_image"/>
+
+    <!-- 다른 필드들도 필요하다면 추가 -->
+</resultMap>
+
+<!-- PetPlaceLikeDTO의 resultMap -->
+<resultMap id="petplacelikeResultMap" type="board.petplace.PetPlaceLikeDTO">
+    <result property="like_id" column="like_id" />
+    <result property="user_id" column="user_id" />
+    <result property="place_id" column="place_id" />
+    <result property="comment_id" column="comment_id" />
+    <result property="like_type" column="like_type" />
+    <result property="is_like" column="is_like" />
+    <result property="likes" column="likes" />
+</resultMap>
+
+<!-- PetPlaceCommentDTO의 resultMap -->
+<resultMap id="petplacecommentResultMap" type="board.petplace.PetPlaceCommentDTO">
+    <result property="comment_id" column="comment_id" />
+    <result property="user_id" column="user_id" />
+    <result property="place_id" column="place_id" />
+    <result property="comment_contents" column="comment_contents" />
+    <result property="parent_id" column="parent_id" />
+    <result property="comment_created_at" column="comment_created_at" />
+    <result property="comment_updated" column="comment_updated" />
+    <result property="deleted_at" column="deleted_at" />
+    
+     <association property="petPlace" resultMap="petplacedto" />
+     <association property="user" resultMap="userResultMap" />
+    <!-- 다른 필드들도 필요하다면 추가 -->
+</resultMap>
+
+
+  
+
+
+
+   <!-- Pagination -->
+<select id="getAllCommentPaging" resultMap="petplacecommentResultMap" parameterType="pagination.SearchDTO">
+    SELECT c.*, u.name, u.profile_image, p.place_id AS place_id  <!-- Add p.place_id here -->
+    FROM petplaceComment c
+    INNER JOIN petPlace p ON p.place_id = c.place_id
+    INNER JOIN user u ON c.user_id = u.user_id
+	where c.place_id=#{searchType1} and c.deleted_at IS NULL
+    ORDER BY c.comment_created_at DESC
+    LIMIT #{pagination.limitStart}, #{recordSize}
+</select>
+
+<select id="getCCount" resultType="int" parameterType="pagination.SearchDTO">
+    SELECT COUNT(*)
+    FROM petplaceComment c
+    INNER JOIN petPlace p ON p.place_id = c.place_id
+ 	where c.place_id=#{searchType1} and c.deleted_at IS NULL 
+</select>
+
+<select id="getListWithPage" resultMap="petplacedto">
+    SELECT * FROM petplaceComment WHERE place_id = #{place_id}
+</select>
+
+
+
+<select id="getAllPetPlacePaging" resultMap="petplacedto" parameterType="pagination.SearchDTO">
+        SELECT *
+        FROM petPlace p
+         inner JOIN user u ON p.user_id = u.user_id
+         
+        <where>
+            <choose>
+                <when test="searchType1 != null and searchType1 != ''">
+                    <if test="searchType1.equals('산책')">
+                        AND category = '산책'
+                    </if>
+                    <if test="searchType1.equals('카페')">
+                        AND category = '카페'
+                    </if>
+                    <if test="searchType1.equals('식당')">
+                        AND category = '식당'
+                    </if>
+                    <if test="searchType1.equals('숙소')">
+                        AND category = '숙소'
+                    </if>
+                </when>
+            </choose>
+            <if test="keyword != null and keyword != ''">
+                AND title LIKE CONCAT('%', #{keyword}, '%')
+            </if>
+             AND p.deleted_at IS NULL
+        </where>
+        ORDER BY petplace_created DESC
+        LIMIT #{pagination.limitStart}, #{recordSize}
+    </select>
+
+    <select id="getCount" resultType="int" parameterType="pagination.SearchDTO">
+        SELECT COUNT(*)
+        FROM petPlace p
+        <where>
+            <choose>
+                <when test="searchType1 != null and searchType1 != ''">
+                    <if test="searchType1.equals('산책')">
+                        AND category = '산책'
+                    </if>
+                    <if test="searchType1.equals('카페')">
+                        AND category = '카페'
+                    </if>
+                    <if test="searchType1.equals('식당')">
+                        AND category = '식당'
+                    </if>
+                    <if test="searchType1.equals('숙소')">
+                        AND category = '숙소'
+                    </if>
+                    
+                    
+                </when>
+                <otherwise>
+                    AND 1=1
+                </otherwise>
+            </choose>
+            <if test="keyword != null and keyword != ''">
+                AND title LIKE CONCAT('%', #{keyword}, '%')
+            </if>
+             AND p.deleted_at IS NULL
+        </where>
+    </select>
+
+
+
+
+
+
+
+
+
+    <!-- Insert a new pet place -->
+    <insert id="insertPetPlace" parameterType="board.petplace.PetPlaceDTO" >
+       INSERT INTO petPlace ( view_count , user_id, title, category, petplace_address,  petplace_contents)
+VALUES (0, #{user_id}, #{title}, #{category}, #{petplace_address},  #{petplace_contents});
+    <selectKey resultType="int" keyProperty="seq" order="AFTER">
+        SELECT LAST_INSERT_ID()
+    </selectKey>
+    </insert>
+
+<insert id="insertComment" parameterType="board.petplace.PetPlaceDTO">
+  INSERT INTO petplaceComment(user_id, place_id, comment_contents)
+    VALUES (#{user_id}, #{place_id},#{comment_contents});  
+  </insert>
+
+
+
+<update id="viewCnt" parameterType="int">
+  UPDATE petPlace SET view_count = view_count + 1 
+  WHERE seq = #{seq}
+</update>
+
+    
+    
+ <select id="findpetplace" parameterType="int" resultMap="petplacedto">
+    SELECT *
+    FROM petPlace p
+    LEFT JOIN user u ON p.user_id = u.user_id
+    LEFT JOIN petplaceLike l ON p.place_id = l.place_id
+    WHERE seq = #{seq}  AND p.deleted_at IS NULL
+</select>
+
+
+    <update id="updatepetplace" parameterType="Map" useGeneratedKeys="true" keyProperty="seq">
+        UPDATE petPlace SET
+        seq=#{seq}, title=#{title}, petplace_contents=#{petplace_contents}, category=#{category},petplace_address=#{petplace_address}
+        WHERE seq=#{seq}
+    </update>
+
+
+    <delete id="deletepetplace" parameterType="int">
+        DELETE FROM petPlace
+        WHERE seq=#{seq}
+    </delete>
+
+  <update id="deleteComment" parameterType="String">
+	 DELETE FROM petplaceComment
+		
+		WHERE comment_id=#{comment_id} 
+	</update>
+
+<update id="deleteAllComment" parameterType="String">
+	 DELETE FROM petplaceComment
+		where place_id=#{place_id}
+	</update>
+
+
+<select id="getPetplaceComments" parameterType="pagination.SearchDTO" resultMap="petplacecommentResultMap">
+		select *
+			<!-- p.review_id,p.place_id,p.user_id,p.contents,p.score,p.created_at,p.review_img,p.likes,
+			u.email, u.profile_image -->
+		from petplaceComment as p 
+		inner join user as u 
+		on u.user_id = p.user_id 
+		where p.place_id=#{searchType1} and p.deleted_at is null
+		
+		limit #{pagination.limitStart}, #{recordSize}
+	</select>
+	
+	
+<select id="getUserInfoPetplace" resultType="userdto">
+		SELECT * FROM `user` WHERE `user_id` = #{user_id};
+	</select>
+
+
+<update id="updateDeleteAtCommnet" parameterType="String">
+		UPDATE petplacecomment
+		SET deleted_at = now()
+		WHERE comment_id=#{comment_id}
+	</update>
+
+
+
+
+
+<!-- 
+	 좋아요 등록 +1 
+	<update id="likeUp" parameterType="String">
+		UPDATE petplacelike SET likes = likes + 1 where place_id=#{place_id};
+	</update>
+	<insert id="insertLike" parameterType="HashMap">
+    INSERT INTO petplacelike ( user_id, place_id, comment_id)
+    VALUES ( #{user_id}, #{place_id}, #{comment_id, jdbcType=VARCHAR});
+</insert>
+t>
+
+	좋아요 등록 -1
+	<update id="likeDown" parameterType="String">
+			UPDATE petplacelike SET likes = likes - 1 where place_id=#{place_id};
+	</update>
+	<delete id="deleteLike" parameterType="HashMap">
+    DELETE FROM petplacelike WHERE place_id=#{place_id} AND user_id=#{user_id} AND comment_id='place_id';
+</delete>
+
+	좋아요 여부 검사
+	<select id="isLikeReview" parameterType="HashMap" resultType="int">
+		select count(*) from petplacelike 
+		where place_id=#{place_id} and user_id=#{user_id};
+	</select>
+	
+	해당 댓글 좋아요 수
+	<select id="likeCntReview" parameterType="String" resultType="int">
+		select count(*) from petplacelike where place_id=#{place_id};
+	</select>
+
+
+
+
+ -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</mapper>

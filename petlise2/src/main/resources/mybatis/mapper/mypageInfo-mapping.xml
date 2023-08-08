@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mypage.user.MypageDAO">
+
+	<select id="userInfo" parameterType="string" resultType="mypagedto">
+		select * from user where user_id=#{id}
+	</select>
+
+	<select id="checkPw" parameterType="string" resultType="string">
+		select
+		password from user where user_id=#{id}
+	</select>
+
+	<update id="updatePw" parameterType="string">
+		update user set
+		password=#{password}
+		where user_id=#{id}
+	</update>
+
+	<update id="updateUser" parameterType="string">
+		update user set
+		name=#{name},
+		address=#{address},
+		profile_image=#{profile_image},
+		pet_type=#{pet_type},
+		pet_name=#{pet_name}, pet_age=#{pet_age}
+		where
+		user_id=#{id}
+	</update>
+
+	<update id="updateDelete" parameterType="Map">
+		update user set
+		deleted_at=#{deleted_at}
+		where user_id=#{id}
+	</update>
+
+	<select id="orderCount" parameterType="string" resultType="int">
+		select count(op.user_id) from orderProduct op
+		left join user
+		on op.user_id = user.user_id
+		where op.user_id = #{id}
+	</select>
+
+	<select id="productCommentsCount" parameterType="string" resultType="int">
+		select count(pr.user_id) from product_review pr
+		left join user
+		on pr.user_id = user.user_id
+		where pr.user_id = #{id}
+	</select>
+
+	<select id="qnaCount" parameterType="string" resultType="int">
+		select count(qb.user_id) from qnaBoard qb
+		left join user
+		on qb.user_id = user.user_id
+		where qb.user_id = #{id}
+	</select>
+
+	<select id="recipeCount" parameterType="string" resultType="int">
+		select count(rb.user_id) from recipe rb
+		left join user
+		on rb.user_id = user.user_id
+		where rb.user_id = #{id}
+	</select>
+
+	<select id="recipeCommentsCount" parameterType="string" resultType="int">
+		select count(rc.user_id) from recipeComment rc
+		left join user
+		on rc.user_id = user.user_id
+		where rc.user_id = #{id}
+		and rc.parent_id is null
+	</select>
+
+	<select id="boardCount" parameterType="string" resultType="int">
+		select count(board.user_id) from board
+		left join user
+		on board.user_id = user.user_id
+		where board.user_id = #{id}
+	</select>
+
+	<select id="boardCommentsCounts" parameterType="string" resultType="int">
+		select count(bc.user_id) from boardComment bc
+		left join user as user
+		on bc.user_id = user.user_id
+		where bc.user_id = #{id}
+	</select>
+	
+</mapper>

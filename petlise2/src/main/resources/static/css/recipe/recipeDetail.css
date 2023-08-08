@@ -1,0 +1,311 @@
+
+.wrap {
+  width: 100%;
+  margin: 0 auto;
+  padding: 0;
+}
+
+.pet_icon {
+	display: flex;
+  justify-content: center;
+  margin: -10px;
+}
+.dog_icon img {
+  width: 75px;
+  height: 60px;
+}
+.cat_icon img {
+  width: 75px;
+  height: 60px;
+}
+
+.title_recipe {
+  text-align: center;
+  margin-top: 70px;
+  margin-bottom: 70px;
+  > span {
+    font: var(--heading24);
+  }
+}
+
+
+.idx_top {
+  width: 100%;
+  height: 350px;
+  padding: 120px 0px 50px 0px;
+  background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.4));
+  background-size: cover;
+  background-position: center center;
+  display: block;
+  margin: 0 auto;
+  position: relative;
+}
+
+.main_top_category {
+  
+  min-width: 1000px;
+  max-width: 1200px;
+  margin: 0 auto;
+  font-size: 16px;
+  color: white;
+  text-shadow: 0.2px 0.2px 0.2px rgb(0, 0, 0);
+}
+
+.main_top_title {
+  width: 100%;
+  min-width: 1000px;
+  max-width: 1200px;
+  margin: 0 auto;
+  font: var(--heading34);
+  color: var(--dark-text);
+  font-weight: bold;
+  padding-bottom: 10px;
+  display: block;
+  text-shadow: 0.5px 0.5px 0.5px rgb(0, 0, 0);
+}
+.main_bottom {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  min-width: 1000px;
+  max-width: 1200px;
+  margin: 0 auto;
+  font: var(--body16);
+  color: var(--dark-text);
+}
+
+.main_top_writer {
+  margin-right: 20px;
+}
+
+.board_body {
+  width: 1440px;
+  margin: 0 auto;
+  margin-top: 20px;
+  border-bottom: 2px solid var(--light-stroke);
+}
+
+.board_body_inside {
+  width: 1300px;
+  margin: 0 auto;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.post_actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  margin: 25px 0;
+}
+
+.recipe_edit_btn,
+.recipe_delete_btn,
+.goBackButton {
+  background-color: var(--light-sub);
+  color: var(--light-text);
+  font: var(--button12);
+  padding: 8px 19px;
+  border-radius: 25px;
+  cursor: pointer;
+}
+
+.recipe_edit_btn:hover,
+.recipe_delete_btn:hover,
+.goBackButton:hover {
+  color: var(--dark-text);
+}
+
+
+#post_like {
+  display: flex;
+  justify-content: center; 
+  align-items: center; 
+}
+
+#post_like button {
+  display: flex;
+  flex-direction: column; 
+  justify-content: center;
+  align-items: center;
+  width: 75px;
+  height: 60px; 
+  border: 2px solid var(--light-point);
+  border-radius: 5px;
+  margin-top: 30px;
+  margin-bottom: 30px;
+  font: var(--button14);
+}
+
+#post_like button:hover {
+  background-color: var(--light-sub-hover);
+  cursor: pointer;
+}
+
+#post_like button:hover img {
+  content: url("/images/recipe/heart_hit.svg"); /* 호버 시 이미지 변경 */
+}
+
+.comment_header_bar {
+  padding-bottom: 5px;
+  padding-left: 10px;
+  font: var(--button16);
+  margin-bottom: 10px; 
+}
+
+.cmt_count {
+  color: var(--light-main);
+}
+
+.cmt_writing_box {
+	margin-left: 70px;
+}
+
+
+ /*댓글작성*/
+.cmt_write_input {
+	text-align: right;
+}
+
+/*댓글 글자수 카운트*/
+.character_count {
+  position: absolute;
+  top: 85px;
+  right: 25px;
+}
+
+#cmt_input {
+  width: 94%;
+  height: 105px;
+  white-space: normal;
+  box-sizing: border-box;
+  line-height: 1;
+  border: 2px solid var(--light-stroke) !important;
+  border-bottom: 0.5px solid var(--light-stroke) !important;
+  border-radius: 10px 10px 0 0;
+}
+.cmt_write_input_bottom {
+  width: 94%;
+  height: 40px;
+  color: var(--light-text);
+  font: var(--button14);
+  border: 2px solid var(--light-stroke);
+  border-top: 0;
+  border-radius: 0 0 10px 10px;
+  margin-top: -30px;
+  margin-left: 78px;
+  margin-bottom: 50px;
+}
+
+.cmt_actions {
+  display: flex;
+  justify-content: flex-start;
+  gap: 0.5rem;
+  margin: 25px 0;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 25px 0;
+}
+
+.cmt_actions > button {
+  display: flex;
+  align-items: center; 
+}
+
+#cmt_save {
+  margin-left: auto;
+  font-weight: bold; 
+}
+
+#cmt_save {
+  width: 50px;
+  height: 35px;
+  font: var(--button14);
+  gap: 5px;
+}
+
+#fileimg1 {
+  width: 60px;
+  height: 30px;
+  font: var(--button14);
+  margin-left: 20px;
+}
+
+.cmt_actions > button {
+  vertical-align: middle;
+}
+
+.cmt_textarea {
+  border-radius: 1rem;
+  padding: 15px;
+  margin-top: 10px;
+  
+}
+
+.cmt_write_input {
+  position: relative;
+}
+
+.cmt_write_input img {
+  position: absolute;
+  top: 10px;
+  left: 15px;
+}
+
+/*댓글 리스트*/
+.cmt_unit {
+  margin-bottom: 20px;
+}
+
+.cmt_user {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 10px;
+}
+
+.cmt_user .cmt_user_id {
+  margin-left: 10px; 
+  font-weight: bold; 
+}
+
+.cmt_util {
+  display: flex;
+  gap: 10px;
+  margin-left: auto;
+}
+
+.cmt_btns {
+  margin-left: 10px;	
+  margin-right: 10px;
+}
+
+.cmt_btns span {
+  display: inline-block;
+  margin-right: -5px;
+  margin-left: -5px;
+}
+
+/*댓글 수정 모드*/
+.edit_mode {
+  width: 1300px;
+  height: 70px;
+  display: flex;
+  
+  > textarea {
+    width: 100%;
+    height: 100%;
+    padding: 10px;
+    border: 2px solid var(--light-stroke);
+    border-radius: 10px;
+  }
+  
+  > .edit_btns {
+    float: right;
+    margin-left: auto;
+  }
+}
+
+
+
+

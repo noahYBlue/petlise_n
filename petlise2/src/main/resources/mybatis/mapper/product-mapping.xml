@@ -1,0 +1,479 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="admin.shop.ProductDAO">
+	
+	<insert id="insertProduct" parameterType="productdto">
+		<!-- product_id(auto) / pet_type / category / product_code / reg_date -->
+		<!-- product_name / price / quatity / image_main / image_detail / isvisible -->
+		insert into products(
+		pet_type,category,product_code,reg_date,
+		product_name,price,quatity,image_main,image_detail,isvisible
+		)
+		values(
+		#{pet_type},#{category},#{product_code},#{reg_date},
+		#{product_name},#{price},#{quatity},#{image_main},#{image_detail},true
+		)
+	</insert>
+
+	<select id="maxProductNum" resultType="int">
+		select max(product_id)
+		from products;
+	</select>
+
+	<select id="countTotalProductNum" resultType="int">
+		select count(*)
+		from products;
+	</select>
+
+	<select id="getAllProduct" resultType="productdto">
+		select * from products
+		where isvisible=true order by product_num;
+	</select>
+
+	<select id="getProductById" resultType="productdto"
+		parameterType="String">
+		select * from products where product_id=#{product_id}
+	</select>
+	
+	<delete id="deleteProduct" parameterType="String">
+		delete from products where product_id = #{product_id};
+	</delete>
+	
+	<update id="updateProduct" parameterType="productdto">
+		UPDATE products 
+		SET pet_type=#{pet_type}, category=#{category}, product_code = #{product_code}, reg_date = #{reg_date}, 
+			product_name=#{product_name}, price=#{price}, quatity=#{quatity}, isvisible=#{isvisible},
+			image_main=#{image_main}, image_detail=#{image_detail}
+		WHERE product_id = #{product_id};
+	</update>
+	
+	<!-- 장바구니 상품등록 -->
+	<insert id="insertCart" parameterType="cartdto">
+		INSERT INTO cart(
+			user_id, product_id, product_image,
+			product_name, quantity, product_price, price_total
+		)
+		VALUES(
+			#{user_id},#{product_id},#{product_image},
+			#{product_name},#{quantity},#{product_price},#{price_total}
+		)
+	</insert>
+	
+	<!-- 장바구니 조회 -->
+	<select id="isinCart" parameterType="cartdto" resultType="int">
+		SELECT count(*)
+		FROM cart
+		WHERE user_id=#{user_id} and product_id=#{product_id}
+	</select>
+	
+	<!-- 주문상품 상품등록 -->
+	<insert id="insertOrderProduct" parameterType="shop.detail.ShopOrderProductDTO">
+		INSERT INTO orderproduct(
+			user_id, product_id, product_image,
+			product_name, quantity, product_price, price_total
+		)
+		VALUES(
+			#{user_id},#{product_id},#{product_image},
+			#{product_name},#{quantity},#{product_price},#{price_total}
+		)
+	</insert>
+	
+<!-- ▼▼▼▼Pagination▼▼▼▼ -->
+	<select id="getAllProductPaging" resultType="productdto"
+		parameterType="pagination.SearchDTO">
+		select *
+		from products
+		<choose>
+			<!-- 검색어가 있을때 -->
+			<when test="keyword != null and keyword != ''">
+				<choose>
+					<!-- 카테고리1값이 '전체'이거나 공백일때 -->
+					<when test="'전체'.equals( searchType1 ) or searchType1 == null or searchType1 == ''">
+						<choose>
+							<!-- 카테고리2값이 '전체'or 공백일때 -->
+							<when test="'전체'.equals( searchType2 ) or searchType2 == null or searchType2 == ''">
+								<choose>
+									<!-- 카테고리3값이 '전체'or 공백일때 -->
+									<when test="'전체'.equals( searchType3 ) or searchType3 == null or searchType3 == ''">
+										where product_name LIKE CONCAT('%', #{keyword}, '%')
+									</when>
+									<when test="'판매중'.equals( searchType3 )">
+										where product_name LIKE CONCAT('%', #{keyword}, '%')
+										and isvisible=true
+									</when>
+									<when test="'품절'.equals( searchType3 )">
+										where product_name LIKE CONCAT('%', #{keyword}, '%')
+										and isvisible=false
+									</when>
+								</choose>
+							</when>
+
+							<!-- 카테고리2값이 '전체'아닐때 -->
+							<otherwise>
+								<choose>
+									<!-- 카테고리3값이 '전체'or 공백일때 -->
+									<when test="'전체'.equals( searchType3 ) or searchType3 == null or searchType3 == ''">
+										where product_name LIKE CONCAT('%', #{keyword}, '%')
+										and category = #{searchType2}
+									</when>
+									<when test="'판매중'.equals( searchType3 )">
+										where product_name LIKE CONCAT('%', #{keyword}, '%')
+										and category = #{searchType2}
+										and isvisible=true
+									</when>
+									<when test="'품절'.equals( searchType3 )">
+										where product_name LIKE CONCAT('%', #{keyword}, '%')
+										and category = #{searchType2}
+										and isvisible=false
+									</when>
+								</choose>
+							</otherwise>
+						</choose>
+					</when>
+					
+					<!-- 카테고리1값이 '전체' 아닐때 -->
+					<otherwise>
+						<choose>
+							<!-- 카테고리2값이 '전체'or 공백일때 -->
+							<when test="'전체'.equals( searchType2 ) or searchType2 == null or searchType2 == ''">
+								<choose>
+									<!-- 카테고리3값이 '전체'or 공백일때 -->
+									<when test="'전체'.equals( searchType3 ) or searchType3 == null or searchType3 == ''">
+										where product_name LIKE CONCAT('%', #{keyword}, '%')
+										and pet_type = #{searchType1}
+									</when>
+									<when test="'판매중'.equals( searchType3 )">
+										where product_name LIKE CONCAT('%', #{keyword}, '%')
+										and pet_type = #{searchType1}
+										and isvisible=true
+									</when>
+									<when test="'품절'.equals( searchType3 )">
+										where product_name LIKE CONCAT('%', #{keyword}, '%')
+										and pet_type = #{searchType1}
+										and isvisible=false
+									</when>
+								</choose>
+							</when>
+
+							<!-- 카테고리2값이 '전체'아닐때 -->
+							<otherwise>
+								<choose>
+									<!-- 카테고리3값이 '전체'or 공백일때 -->
+									<when test="'전체'.equals( searchType3 ) or searchType3 == null or searchType3 == ''">
+										where product_name LIKE CONCAT('%', #{keyword}, '%')
+										and category = #{searchType2}
+										and pet_type = #{searchType1}
+									</when>
+									<when test="'판매중'.equals( searchType3 )">
+										where product_name LIKE CONCAT('%', #{keyword}, '%')
+										and category = #{searchType2}
+										and pet_type = #{searchType1}
+										and isvisible=true
+									</when>
+									<when test="'품절'.equals( searchType3 )">
+										where product_name LIKE CONCAT('%', #{keyword}, '%')
+										and category = #{searchType2}
+										and pet_type = #{searchType1}
+										and isvisible=false
+									</when>
+								</choose>
+							</otherwise>
+						</choose>
+					</otherwise>
+				</choose>
+			</when>
+
+			<!-- 검색어 없을때 -->
+			<otherwise>
+				<choose>
+					<!-- 카테고리1값이 '전체'이거나 공백일때 -->
+					<when test="'전체'.equals( searchType1 ) or searchType1 == null or searchType1 == ''">
+						<choose>
+							<!-- 카테고리2값이 '전체'or 공백일때 -->
+							<when test="'전체'.equals( searchType2 ) or searchType2 == null or searchType2 == ''">
+								<choose>
+									<!-- 카테고리3값이 '전체'or 공백일때 -->
+									<when test="'전체'.equals( searchType3 ) or searchType3 == null or searchType3 == ''">
+									</when>
+									<when test="'판매중'.equals( searchType3 )">
+										where isvisible=true
+									</when>
+									<when test="'품절'.equals( searchType3 )">
+										where isvisible=false
+									</when>
+								</choose>
+							</when>
+
+							<!-- 카테고리2값이 '전체'아닐때 -->
+							<otherwise>
+								<choose>
+									<!-- 카테고리3값이 '전체'or 공백일때 -->
+									<when test="'전체'.equals( searchType3 ) or searchType3 == null or searchType3 == ''">
+										where category = #{searchType2}
+									</when>
+									<when test="'판매중'.equals( searchType3 )">
+										where category = #{searchType2}
+										and isvisible=true
+									</when>
+									<when test="'품절'.equals( searchType3 )">
+										where category = #{searchType2}
+										and isvisible=false
+									</when>
+								</choose>
+							</otherwise>
+						</choose>
+					</when>
+					
+					<!-- 카테고리1값이 '전체' 아닐때 -->
+					<otherwise>
+						<choose>
+							<!-- 카테고리2값이 '전체'or 공백일때 -->
+							<when test="'전체'.equals( searchType2 ) or searchType2 == null or searchType2 == ''">
+								<choose>
+									<!-- 카테고리3값이 '전체'or 공백일때 -->
+									<when test="'전체'.equals( searchType3 ) or searchType3 == null or searchType3 == ''">
+										where pet_type = #{searchType1}
+									</when>
+									<when test="'판매중'.equals( searchType3 )">
+										where pet_type = #{searchType1}
+										and isvisible=true
+									</when>
+									<when test="'품절'.equals( searchType3 )">
+										where pet_type = #{searchType1}
+										and isvisible=false
+									</when>
+								</choose>
+							</when>
+
+							<!-- 카테고리2값이 '전체'아닐때 -->
+							<otherwise>
+								<choose>
+									<!-- 카테고리3값이 '전체'or 공백일때 -->
+									<when test="'전체'.equals( searchType3 ) or searchType3 == null or searchType3 == ''">
+										where category = #{searchType2}
+										and pet_type = #{searchType1}
+									</when>
+									<when test="'판매중'.equals( searchType3 )">
+										where category = #{searchType2}
+										and pet_type = #{searchType1}
+										and isvisible=true
+									</when>
+									<when test="'품절'.equals( searchType3 )">
+										where category = #{searchType2}
+										and pet_type = #{searchType1}
+										and isvisible=false
+									</when>
+								</choose>
+							</otherwise>
+						</choose>
+					</otherwise>
+				</choose>
+			</otherwise>
+		</choose>
+		<if test="'상품번호순'.equals(sortType) or sortType!=null or sortType!=''">
+			<choose>
+				<when test="'판매량순'.equals(sortType)">order by sales desc </when>
+				<when test="'신상품순'.equals(sortType)">order by reg_date desc </when>
+				<when test="'저가순'.equals(sortType)">order by price </when>
+				<when test="'고가순'.equals(sortType)">order by price desc </when>
+			</choose>
+		</if>
+		limit #{pagination.limitStart}, #{recordSize}
+	</select>
+
+	<select id="getCount" resultType="int"
+		parameterType="pagination.SearchDTO">
+		select count(*)
+		from products
+		<choose>
+			<!-- 검색어가 있을때 -->
+			<when test="keyword != null and keyword != ''">
+				<choose>
+					<!-- 카테고리1값이 '전체'이거나 공백일때 -->
+					<when test="'전체'.equals( searchType1 ) or searchType1 == null or searchType1 == ''">
+						<choose>
+							<!-- 카테고리2값이 '전체'or 공백일때 -->
+							<when test="'전체'.equals( searchType2 ) or searchType2 == null or searchType2 == ''">
+								<choose>
+									<!-- 카테고리3값이 '전체'or 공백일때 -->
+									<when test="'전체'.equals( searchType3 ) or searchType3 == null or searchType3 == ''">
+										where product_name LIKE CONCAT('%', #{keyword}, '%')
+									</when>
+									<when test="'판매중'.equals( searchType3 )">
+										where product_name LIKE CONCAT('%', #{keyword}, '%')
+										and isvisible=true
+									</when>
+									<when test="'품절'.equals( searchType3 )">
+										where product_name LIKE CONCAT('%', #{keyword}, '%')
+										and isvisible=false
+									</when>
+								</choose>
+							</when>
+
+							<!-- 카테고리2값이 '전체'아닐때 -->
+							<otherwise>
+								<choose>
+									<!-- 카테고리3값이 '전체'or 공백일때 -->
+									<when test="'전체'.equals( searchType3 ) or searchType3 == null or searchType3 == ''">
+										where product_name LIKE CONCAT('%', #{keyword}, '%')
+										and category = #{searchType2}
+									</when>
+									<when test="'판매중'.equals( searchType3 )">
+										where product_name LIKE CONCAT('%', #{keyword}, '%')
+										and category = #{searchType2}
+										and isvisible=true
+									</when>
+									<when test="'품절'.equals( searchType3 )">
+										where product_name LIKE CONCAT('%', #{keyword}, '%')
+										and category = #{searchType2}
+										and isvisible=false
+									</when>
+								</choose>
+							</otherwise>
+						</choose>
+					</when>
+					
+					<!-- 카테고리1값이 '전체' 아닐때 -->
+					<otherwise>
+						<choose>
+							<!-- 카테고리2값이 '전체'or 공백일때 -->
+							<when test="'전체'.equals( searchType2 ) or searchType2 == null or searchType2 == ''">
+								<choose>
+									<!-- 카테고리3값이 '전체'or 공백일때 -->
+									<when test="'전체'.equals( searchType3 ) or searchType3 == null or searchType3 == ''">
+										where product_name LIKE CONCAT('%', #{keyword}, '%')
+										and pet_type = #{searchType1}
+									</when>
+									<when test="'판매중'.equals( searchType3 )">
+										where product_name LIKE CONCAT('%', #{keyword}, '%')
+										and pet_type = #{searchType1}
+										and isvisible=true
+									</when>
+									<when test="'품절'.equals( searchType3 )">
+										where product_name LIKE CONCAT('%', #{keyword}, '%')
+										and pet_type = #{searchType1}
+										and isvisible=false
+									</when>
+								</choose>
+							</when>
+
+							<!-- 카테고리2값이 '전체'아닐때 -->
+							<otherwise>
+								<choose>
+									<!-- 카테고리3값이 '전체'or 공백일때 -->
+									<when test="'전체'.equals( searchType3 ) or searchType3 == null or searchType3 == ''">
+										where product_name LIKE CONCAT('%', #{keyword}, '%')
+										and category = #{searchType2}
+										and pet_type = #{searchType1}
+									</when>
+									<when test="'판매중'.equals( searchType3 )">
+										where product_name LIKE CONCAT('%', #{keyword}, '%')
+										and category = #{searchType2}
+										and pet_type = #{searchType1}
+										and isvisible=true
+									</when>
+									<when test="'품절'.equals( searchType3 )">
+										where product_name LIKE CONCAT('%', #{keyword}, '%')
+										and category = #{searchType2}
+										and pet_type = #{searchType1}
+										and isvisible=false
+									</when>
+								</choose>
+							</otherwise>
+						</choose>
+					</otherwise>
+				</choose>
+			</when>
+
+			<!-- 검색어 없을때 -->
+			<otherwise>
+				<choose>
+					<!-- 카테고리1값이 '전체'이거나 공백일때 -->
+					<when test="'전체'.equals( searchType1 ) or searchType1 == null or searchType1 == ''">
+						<choose>
+							<!-- 카테고리2값이 '전체'or 공백일때 -->
+							<when test="'전체'.equals( searchType2 ) or searchType2 == null or searchType2 == ''">
+								<choose>
+									<!-- 카테고리3값이 '전체'or 공백일때 -->
+									<when test="'전체'.equals( searchType3 ) or searchType3 == null or searchType3 == ''">
+									</when>
+									<when test="'판매중'.equals( searchType3 )">
+										where isvisible=true
+									</when>
+									<when test="'품절'.equals( searchType3 )">
+										where isvisible=false
+									</when>
+								</choose>
+							</when>
+
+							<!-- 카테고리2값이 '전체'아닐때 -->
+							<otherwise>
+								<choose>
+									<!-- 카테고리3값이 '전체'or 공백일때 -->
+									<when test="'전체'.equals( searchType3 ) or searchType3 == null or searchType3 == ''">
+										where category = #{searchType2}
+									</when>
+									<when test="'판매중'.equals( searchType3 )">
+										where category = #{searchType2}
+										and isvisible=true
+									</when>
+									<when test="'품절'.equals( searchType3 )">
+										where category = #{searchType2}
+										and isvisible=false
+									</when>
+								</choose>
+							</otherwise>
+						</choose>
+					</when>
+					
+					<!-- 카테고리1값이 '전체' 아닐때 -->
+					<otherwise>
+						<choose>
+							<!-- 카테고리2값이 '전체'or 공백일때 -->
+							<when test="'전체'.equals( searchType2 ) or searchType2 == null or searchType2 == ''">
+								<choose>
+									<!-- 카테고리3값이 '전체'or 공백일때 -->
+									<when test="'전체'.equals( searchType3 ) or searchType3 == null or searchType3 == ''">
+										where pet_type = #{searchType1}
+									</when>
+									<when test="'판매중'.equals( searchType3 )">
+										where pet_type = #{searchType1}
+										and isvisible=true
+									</when>
+									<when test="'품절'.equals( searchType3 )">
+										where pet_type = #{searchType1}
+										and isvisible=false
+									</when>
+								</choose>
+							</when>
+
+							<!-- 카테고리2값이 '전체'아닐때 -->
+							<otherwise>
+								<choose>
+									<!-- 카테고리3값이 '전체'or 공백일때 -->
+									<when test="'전체'.equals( searchType3 ) or searchType3 == null or searchType3 == ''">
+										where category = #{searchType2}
+										and pet_type = #{searchType1}
+									</when>
+									<when test="'판매중'.equals( searchType3 )">
+										where category = #{searchType2}
+										and pet_type = #{searchType1}
+										and isvisible=true
+									</when>
+									<when test="'품절'.equals( searchType3 )">
+										where category = #{searchType2}
+										and pet_type = #{searchType1}
+										and isvisible=false
+									</when>
+								</choose>
+							</otherwise>
+						</choose>
+					</otherwise>
+				</choose>
+			</otherwise>
+		</choose>
+	</select>
+<!-- ▲▲▲▲Pagination▲▲▲▲ -->
+
+</mapper>

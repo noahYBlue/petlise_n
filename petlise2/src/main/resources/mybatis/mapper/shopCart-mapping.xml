@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="shop.cart.ShopCartDAO">
+
+<!-- 장바구니 목록 불러오기 -->
+	<select id="getCartList" resultType="cartdto">
+		SELECT * FROM `cart` WHERE `user_id` = #{user_id};
+	</select>
+
+<!-- 장바구니 목록 삭제 -->
+	<delete id="deleteCartList" parameterType="String">
+		DELETE FROM `cart` WHERE `product_name` = #{product_name};
+	</delete>
+
+<!-- 선택된 장바구니 상품 주문하기 -->
+	<insert id="saveCartList" parameterType="cartdto">
+		INSERT INTO orderProduct
+					(user_id, product_id, product_image, 
+					product_name, product_price, quantity, price_total)  
+		VALUES		( 
+					#{user_id}, #{product_id}, #{product_image}, 
+					#{product_name}, #{product_price}, #{quantity}, #{price_total});	
+	</insert>
+	
+<!-- 주문완료되지않은 주문상품들 비우기 -->
+	<delete id="deleteNonPayment" parameterType="String">
+		DELETE FROM `orderProduct` 
+		WHERE `user_id` = #{user_id} and `order_id` is null;
+	</delete>
+	
+</mapper>

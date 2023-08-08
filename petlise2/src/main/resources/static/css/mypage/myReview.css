@@ -1,0 +1,334 @@
+@charset "UTF-8";
+
+#contents_Category {
+	height: 50px;
+	padding: 20px;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+/* ---------- 기간검색 ----------  */
+#periodWrap {
+	width: 100%;
+	display: flex;
+	justify-content: left;
+	align-items: center;
+}
+
+#periodWrap>span {
+	width: 100px;
+	height: 35px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font: var(--highlight14);
+}
+
+#periodWrap>div {
+	width: auto;
+	height: 35px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border: 1.5px solid var(--light-sub);
+	border-radius: 5px;
+}
+
+#periodWrap>div>input[type='text'] {
+	width: 130px;
+	height: 35px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font: var(--body14);
+	color: var(--light-text);
+	padding: 0px 10px;
+}
+
+#periodWrap>input[type='button'] {
+	width: 50px;
+	height: 35px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border: 1.5px solid var(--light-sub);
+	border-radius: 5px;
+	font: var(--body14);
+	color: var(--light-text);
+	margin-right: 5px;
+	padding: 0px 10px;
+	cursor: pointer;
+}
+
+#periodWrap>input[type='button']:nth-last-child(2){
+	margin-left: 5px;
+}
+
+#periodWrap>input[type='button']:nth-last-child(1){
+	width: 100px;
+	margin-right: 0px;
+}
+
+#periodWrap>input[type='button']:hover{
+	background-color: var(--light-sub);
+}
+
+#periodWrap>#searchbtn{
+	background-color: var(--light-sub);
+}
+
+/* 상품목록 */
+#outer_container {
+	width: 950px;
+	margin: 0 auto;
+	padding-top: 15px;
+}
+
+#nolist{
+	width: 950px;
+	height:500px;
+	margin: 0 auto;
+	text-align: center;
+	display:flex;
+	align-items:center;
+	justify-content:center;
+	font-size: 48px;
+	font-weight: bold;
+	color:var(--light-sub);
+}
+
+.orderProduct_container {
+	width: 950px;
+	height: 150px;
+	border: 1px solid var(--light-main, #FFB100);
+	background-color:white;
+	border-radius:10px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin-bottom: 5px;
+}
+
+.logo_img {
+	width: 70px;
+	height: 130px;
+	border-right: 2px dashed var(--light-main, #FFB100);
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.product_img {
+	width: 150px;
+	height: 150px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.product_img>img {
+	width: 130px;
+	height: 130px;
+	border-radius: 15px;
+	border: 1px solid var(--light-sub, #FBC252);
+}
+
+.orderproduct_info {
+	width: 580px;
+	padding-left:10px;
+	display: flex;
+	flex-direction: column; 
+	justify-content : center;
+}
+
+.orderproduct_info>div {
+	margin-bottom: 5px;
+	display: flex;
+	align-items: center;
+}
+
+.orderproduct_info>div>span:nth-child(1) {
+	display:inline-block;
+	width:100px;
+	font:var(--highlight14);
+}
+.orderproduct_info>div>span:nth-child(2) {
+	font:var(--body14);
+}
+
+.review_btns {
+	width: 150px;
+	height: 130px;
+	display: flex;
+	flex-direction: column; 
+	justify-content : center;
+	align-items: center;
+	justify-content: center;
+	border-left: 2px dashed var(--light-main, #FFB100);
+}
+
+.review_btns>img {
+	width: 50px;
+	margin-bottom: 15px;
+}
+
+.editbtn,
+.showbtn {
+	width: 120px;
+	height: 30px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	border-radius: 8px;
+	border: 1px solid var(--light-sub, #FBC252);
+	font:var(--button12);
+}
+
+.editbtn:hover,
+.showbtn:hover {
+	background-color:var(--light-sub, #FBC252);
+}
+
+.hidebtn {
+	border-color:transparent;
+	font:var(--button12);
+	color: var(--gray4);
+	cursor: default;
+}
+
+.review_container {
+	width: 950px;
+	border: 1px solid var(--light-main, #FFB100);
+	border-radius:10px;
+	margin-bottom: 5px;
+	font-size: 0px;
+	overflow:hidden;
+	
+	display: grid;
+	grid-template-columns: 800px 150px;
+	grid-template-rows: minmax(170px,auto) 30px;
+}
+
+.review_contents{
+	display: grid;
+	grid-template-columns: 70px 730px;
+	grid-template-rows: 50px minmax(50px,auto);
+}
+
+.review_contents>div{
+	font:var(--highlight14);
+	padding:10px;
+}
+
+.review_contents>.review_score{
+	display: flex;
+	justify-content: flex-start;
+	align-items: center;
+}
+.review_contents>.review_score.first{
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.review_contents>.review_score>img{
+	width:30px;
+}
+.review_contents>.review_score>span{
+	font:var(--highlight14);
+	color: var(--light-main, #FFB100);
+	margin-left: 10px;
+}
+
+.review_contents>.review_inner_contents{
+	display: flex;
+	flex-direction:column;
+}
+.review_contents>.review_inner_contents.first{
+	display: flex;
+	align-items: center;
+}
+
+.review_inner_contents>.review_img_box {
+	width: 80px;
+	height: 80px;
+	border-radius: 10px;
+	border:1px solid var(--light-sub);
+	overflow: hidden;
+}
+
+.review_inner_contents>.review_img_box>img {
+	width: 80px;
+	height: 80px;
+}
+
+.review_inner_contents>.review_texts {
+	font:var(--body14);
+}
+
+.reviewdetail_btns{
+	width: 150px;
+	min-height: 100px;
+	display: flex;
+	flex-direction: column; 
+	align-items: center;
+}
+
+.reviewdetail_btns>button{
+	width: 100px;
+	height: 30px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	border-radius: 8px;
+	font:var(--button12);
+	margin-top: 10px;
+}
+
+.reviewdetail_btns>.review_updatebtn>span{
+	width: 20px;
+	height: 20px;
+	margin-right: 5px;
+	
+	background: url(/images/mypage/pen_black.svg) no-repeat center;
+	background-size: cover;
+}
+.reviewdetail_btns>.review_deletebtn>span{
+	width: 20px;
+	height: 20px;
+	margin-right: 5px;
+	
+	background: url(/images/mypage/delete_black.svg) no-repeat center;
+	background-size: cover;
+}
+.reviewdetail_btns>.review_updatebtn:hover,
+.reviewdetail_btns>.review_deletebtn:hover{
+	color: var(--light-main);
+}
+
+.reviewdetail_btns>.review_updatebtn:hover>span{
+	background: url(/images/mypage/pen.svg) no-repeat center;
+	background-size: cover;
+}
+.reviewdetail_btns>.review_deletebtn:hover>span{
+	background: url(/images/mypage/delete_sub.svg) no-repeat center;
+	background-size: cover;
+}
+
+.container_bottom{
+	width: 950px;
+	height: 30px;
+	background-color: var(--light-sub);
+	border-radius: 0px 0px 10px 8px;
+	background: var(--light-sub, #FBC252);
+	padding-right:10px;
+	display: flex;
+	justify-content: flex-end;
+	align-items: center;
+}
+
+.container_bottom>button>img{
+	width: 20px;
+	height: 20px;
+}

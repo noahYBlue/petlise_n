@@ -1,0 +1,83 @@
+@charset "UTF-8";
+@import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200');
+
+.title {
+  width: 1240px;
+  margin: 0 auto;
+  font: var(--heading24);
+  padding: 30px 0;
+  overflow: hidden;
+}
+
+.container {
+  width: 1240px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: left;
+  align-items: start;
+}
+
+#mypageMenu,
+.contents {
+  display: inline-block;
+}
+
+#mypageMenu {
+  min-width: 255px;
+  width: 255px;
+  height: 750px;
+  background: #fbc252;
+  border-radius: 10px;
+}
+
+.contents {
+  min-width: 970px;
+  width: 970px;
+  min-height: 750px;
+  padding-bottom:20px;
+  border-radius: 10px;
+  border: 0.5px #fbc252 solid;
+  margin-left: 16px;
+}
+
+.menu_List {
+  padding-top: 30px;
+}
+
+.menu_List > div {
+  margin-bottom: 35px;
+}
+.menu_List > div > div {
+  display: inline-block;
+  border-bottom: 2px solid #000;
+  width: calc(100% - 40px);
+  font: var(--heading18);
+  padding-bottom: 5px;
+  margin: 0 20px 15px;
+}
+
+.menu_List li {
+  height: 30px;
+  line-height: 30px !important;
+  font: var(--body16);
+  list-style-type: none;
+  padding-left: 50px;
+}
+.menu_List li:hover {
+  background-color: var(--light-main);
+}
+
+.material-symbols-outlined {
+  font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 48;
+  transform: translateY(5px);
+}
+
+.contents_Title {
+  font: var(--heading24);
+  margin: 20px 20px;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}

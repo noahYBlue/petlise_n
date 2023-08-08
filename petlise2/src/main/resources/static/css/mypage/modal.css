@@ -1,0 +1,72 @@
+.modalContent, .modalBackdrop {
+	overflow: hidden;
+	transition: opacity 0.2s ease-in;
+	text-align: center;
+}
+.modalContent h3 {
+	font: var(--heading18);
+	margin-bottom: 20px;
+}
+.modalContent p {
+	font: var(--body14)
+}
+
+.buttonWrap {
+	width: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	margin-top: 40px;
+}
+
+.modalContent .btn {
+	text-align: center;
+	cursor: pointer;
+	width: 120px;
+	height: 42px;
+	line-height: 42px;
+	border: 1px solid var(--light-main);
+	border-radius: 20px;
+}
+
+.cancel {
+	background-color: var(--light-sub);
+}
+
+#modal {
+	display: none;
+}
+
+#modal.active,
+#modal.active .modalBackdrop{
+	width: 100vw;
+	height: 100vh;
+	position: fixed;
+	left: 0;
+	top: 0;
+	z-index: 9;
+	display: inline-block;
+	opacity : 1;
+	transition: opacity 0.2s ease-in;
+}
+
+#modal.active .modalContent {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: end;
+	opacity: 1;
+	background-color: #fff;
+	max-width: 400px;
+	width: 400px;
+	height: 250px;
+	padding: 60px 65px 35px;
+	z-index: 999;
+	position: fixed;
+	top: 40%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	display: inline-block;
+	border: 3px solid var(--light-main);
+	border-radius: 4px;
+}

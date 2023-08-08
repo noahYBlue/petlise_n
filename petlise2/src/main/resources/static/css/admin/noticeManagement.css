@@ -1,0 +1,79 @@
+main {
+  padding-bottom: 50px;
+}
+table {
+  display: none;
+  min-width: calc(100% - 250px - 60px);
+  width: 100%;
+  margin-bottom: 50px;
+}
+table thead {
+  width: 100%;
+  background: var(--light-stroke);
+}
+table thead tr {
+  display: grid;
+  grid-template-columns: 110px minmax(326px, 1130px) 120px 100px repeat(3, 90px);
+}
+table thead.family tr {
+  display: grid;
+  grid-template-columns: 100px minmax(180px, 1130px) 110px 85px repeat(2, 125px) repeat(
+      2,
+      minmax(100px, 125px)
+    );
+}
+table thead th {
+  font: var(--highlight16);
+  height: 50px;
+  line-height: 50px;
+}
+table tbody {
+  width: 100%;
+  text-align: center;
+}
+table tbody tr {
+  display: grid;
+  grid-template-columns: 110px auto 120px 100px repeat(3, 90px);
+  border-bottom: 1px solid var(--light-point);
+}
+table tbody#familyTbody tr {
+  grid-template-columns: 100px minmax(180px, 1130px) 110px 85px repeat(2, 125px) repeat(
+      2,
+      minmax(100px, 125px)
+    );
+}
+table tbody#familyTbody td img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+table tbody#familyTbody td:nth-of-type(2) {
+  min-width: 155px;
+  width: 100%;
+  max-width: 200px;
+  margin: 0 auto;
+}
+table tbody td {
+  font: var(--body14);
+  height: 45px;
+  line-height: 45px;
+  padding: 0 5px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+table tbody td:nth-of-type(2) span {
+  cursor: pointer;
+}
+table tbody#familyTbody td {
+  height: 200px;
+  line-height: 200px;
+  padding: 5px 5px;
+}
+table tbody td:first-of-type,
+table tbody td:last-of-type {
+  padding: 0 10px;
+}
+table tbody td:last-of-type span {
+  cursor: pointer;
+}

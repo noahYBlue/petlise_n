@@ -1,0 +1,81 @@
+#pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+#pagination .prev,
+#pagination .next {
+  border-radius: 5px;
+  border: 1px solid var(--light-stroke);
+}
+#pagination .prev#prevActive,
+#pagination .next#nextActive,
+#pagination .prev#fisrtActive,
+#pagination .next#lastActive {
+  background-color: var(--light-sub);
+  border: solid var(--light-sub);
+  cursor: pointer;
+}
+#pagination .prev,
+#pagination .next,
+#pagination .pageNumber {
+  width: 28px;
+  height: 28px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  line-height: 25px;
+}
+#pagination .prevArrow,
+#pagination .nextArrow {
+  height: 8px;
+  width: 8px;
+  border: solid var(--light-point);
+  border-width: 2px 2px 0 0;
+}
+#pagination .prev#prevActive .prevArrow,
+#pagination .next#nextActive .nextArrow ,
+#pagination .prev#fisrtActive .prevArrow,
+#pagination .next#lastActive .nextArrow {
+	border: solid var(--white);
+	border-width: 2px 2px 0 0;
+}
+.pageNumber {
+  font: var(--body14);
+  margin: 0 5px;
+  border-radius: 50%;
+  cursor: pointer;
+}
+.pageNumber.active {
+  background-color: var(--light-sub);
+  font: var(--highlight14);
+}
+.pageNumber:last-of-type {
+  margin-right: 0 !important;
+}
+
+.prev,
+.next {
+  margin: 0 5px;
+}
+.first,
+.last {
+  margin: 0;
+}
+.prevArrow {
+  transform: rotate(-135deg);
+  margin-left: 3px;
+}
+.first:first-of-type {
+  margin-left: 4px;
+}
+.first:last-of-type {
+  margin-left: 0px;
+}
+.nextArrow {
+  transform: rotate(45deg);
+  margin-right: 3px;
+}
+.last:first-of-type {
+  margin-right: 0px;
+}

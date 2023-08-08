@@ -1,0 +1,186 @@
+
+
+.wrap {
+    width: 1440px;
+    margin: 0 auto;
+
+}
+
+
+#recipeTitle { 
+	width: 1200px;
+}
+
+
+.title_recipe {   
+    text-align: center;  
+    margin-top: 50px;
+    >span {
+      font: var(--heading18);
+    }
+}
+
+.subtitle_recipe {    
+    text-align: center; 
+    margin-top: 10px;
+    margin-left: 5px;
+    border-bottom: 1px solid var(--light-stroke);
+    padding-bottom: 50px;
+    >span {
+      font: var(--heading24);
+    }
+}
+
+.title_input{
+    height:100px;   
+    border-bottom: 1px solid var(--light-stroke);
+    padding-top: 25px; 
+    padding-left: 120px; 
+    margin-bottom: 20px;
+    
+    >input{
+        font: var(--heading34);
+    }
+}
+
+.thumbnail {
+  width: 100%;
+  margin-bottom: 40px;
+}
+.thumbnail > p {
+  margin-left: 105px;
+  margin-bottom: 8px;
+  
+  font: var(--button14);
+}
+.thumbnail > label {
+  display: inline-block;
+  cursor: pointer;
+  width: 100px;
+  height: 100px;
+  border: 2px solid var(--light-sub);
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-left: 105px;
+  margin-bottom: -20px;
+}
+.thumbnail #file {
+  display: none;
+}
+
+.dog_cat {
+    margin-left: 105px;
+    > span {
+    margin-left: 5px;
+    font: var(--button14);
+    	}
+}
+.pet_choose {
+    display: flex;
+    margin-top: 5px;
+    margin-left: 150px;
+  }
+
+  .pet_choose label {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .pet_choose label input,
+  .pet_choose label img,
+  .pet_choose label span {
+    display: block;
+    margin: 5px 0;
+  }
+
+.cat { 
+	margin-left: 90px;
+}
+
+.pet_choose label.cat img {
+    margin-left: 10px; 
+  }
+
+.pet_choose label span {
+	margin-top: -3px;
+	font: var(--button14);
+}
+
+.category {
+	margin-top: 10px;
+    margin-left: 105px;
+    margin-bottom: 10px;
+    > span {
+    margin-left: 5px;
+    font: var(--button14);
+    	}
+}
+
+.post_category{
+    display: flex;
+}
+
+.post_category select:not(:first-child) {
+    margin-left: 5px;
+}
+
+#foodType,
+#foodType_inside {
+    display: none;
+}
+
+#postCategory {
+            height: 40px;
+            width: 150px;
+            border-radius: 5px;
+            border: 2px solid var(--light-stroke);
+            font: var(--button14);
+            padding: 0 0 0 20px;    
+     >option{
+        border: 2px solid var(--light-stroke);
+     }
+}
+
+.ql-toolbar  {
+  width: 85%;
+  border: 2px solid var(--light-stroke) !important;
+  border-bottom: 0.5px solid var(--light-stroke) !important;
+  border-radius: 10px 10px 0 0;
+  margin-left: 105px;
+  margin-top: -15px;
+}
+
+#editor {
+  width: 85%;
+  height: 650px;
+  border: 2px solid var(--light-stroke);
+  border-top: 0;
+  border-radius: 0 0 10px 10px;
+  margin-bottom: 30px;
+  margin-left: 105px;
+}
+
+.createButton {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#submitButton {
+  width: 250px;
+  height: 55px;
+  border-radius: 8px;
+  font: var(--button16);
+  color: var(--light-text);
+  background: var(--light-stroke);
+  margin-bottom: 130px;
+}
+
+.editButton:hover {
+  color: var(--dark-text);
+  background: var(--light-point);
+}

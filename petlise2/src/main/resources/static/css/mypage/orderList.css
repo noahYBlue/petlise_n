@@ -1,0 +1,150 @@
+@charset "UTF-8";
+
+.table {
+	margin: 0 10px;
+}
+
+.table_Header {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 950px;
+	height: 35px;
+	border-radius: 8px;
+	background: var(--light-sub, #FBC252);
+	text-align: center;
+	font: var(--highlight16);
+	line-height: 35px;
+}
+
+#table_Header_Date {
+	min-width: 200px;
+	width: 200px;
+	height: 35px;
+}
+
+#table_Header_Product {
+	width: 500px;
+	height: 35px;
+}
+
+#table_Header_Price {
+	min-width: 100px;
+	width: 100px;
+	height: 35px;
+}
+
+#table_Header_Status {
+	min-width: 100px;
+	width: 150px;
+	height: 35px;
+}
+
+#table_Header_Review {
+	min-width: 100px;
+	width: 100px;
+	height: 35px;
+}
+
+.table_Column {
+	width: 950px;
+	height: 120px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	padding: 10px 0;
+	border-bottom: 1px solid var(--light-sub, #FBC252);
+}
+
+.table_Column > div {
+	height: 80px;
+	text-align: center;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	font: var(--body14);
+}
+
+.table_Column > div:last-of-type {
+	border-right: 0;
+}
+
+.table_Column.nolist{
+	width: 950px;
+	height: 500px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	padding: 10px 0;
+	border-color:transparent;
+	font-size: 50px;
+	color: var(--light-sub, #FBC252);
+	font-weight: 700;
+}
+
+#table_Date {
+	min-width: 200px;
+	width: 200px;
+}
+
+#table_Date > p {
+	padding: 0;
+	margin: 0;
+}
+
+#table_Date > input {
+	width: 80px;
+	height: 25px;
+	border-radius: 5px;
+	border: 1px solid var(--light-main, #FFB100);
+}
+
+#table_Date > input:hover {
+	background: var(--light-sub, #FBC252);
+	font-weight: 700;
+}
+
+#table_Product {
+	width: 500px;
+	text-align: left;
+	padding: 0 10px;
+}
+
+#table_Product a {
+	width: 100%;
+	padding: 0 10px;
+	display: flex;
+	align-items: center;
+}
+
+#product_Image {
+	width: 100px;
+	height: 100px;
+	border: 1px solid var(--light-sub, #FBC252);
+	border-radius: 10px;
+}
+
+#product_Name {
+	margin-left: 20px;
+}
+	
+#table_Product {
+	font: var(--highlight16);
+}
+
+#table_Price {
+	min-width: 100px;
+	width: 100px;
+}
+
+#table_Status {
+	min-width: 150px;
+	width: 100px;
+}
+
+#review_Img {
+	width: 23px;
+	height: 23px;
+	color: #FFB100;
+}

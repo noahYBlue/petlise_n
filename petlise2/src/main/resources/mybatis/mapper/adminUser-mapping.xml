@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="admin.user.AdminUserDAO">
+
+	<select id="findAllUser" parameterType="map" resultType="hashmap">
+		SELECT (SELECT count(*) FROM user
+			<if test="keyword != null and keyword != ''" >
+				WHERE name like CONCAT('%', #{keyword}, '%')
+				OR email like CONCAT('%', #{keyword}, '%')
+			</if>) AS 'count', 
+		user_id, name, email, address, point, created_at, deleted_at, role
+		FROM user
+		WHERE role='user'
+		<if test="keyword != null and keyword != ''" >
+			AND (name like CONCAT('%', #{keyword}, '%')
+			OR email like CONCAT('%', #{keyword}, '%'))
+		</if>
+		ORDER BY created_at DESC, user_id DESC
+		LIMIT 10 OFFSET #{page};
+	</select>
+	
+	<select id="findJoinUser"  resultType="hashmap">
+		SELECT created_at FROM user 
+		WHERE created_at > DATE_ADD(NOW(), INTERVAL -1 WEEK ) 
+		ORDER BY created_at DESC;
+	</select>
+	
+	<update id="updateUserPoint" parameterType="map">
+		UPDATE user
+		SET point = #{point}
+		WHERE user_id = #{id};
+	</update>
+	
+	<select id="findTodayOrder"  resultType="int">
+		SELECT COUNT(*) FROM `order` 
+		WHERE `date` > CURRENT_DATE();
+	</select>
+	<select id="findTodayRecipe"  resultType="int">
+		SELECT COUNT(*) FROM recipe 
+		WHERE recipe_created_at > CURRENT_DATE();
+	</select>
+	<select id="findTodayBoard"  resultType="int">
+		SELECT COUNT(*) FROM board 
+		WHERE board_created > CURRENT_DATE();
+	</select>
+	<select id="findTodayPetplace"  resultType="int">
+		SELECT COUNT(*) FROM petPlace 
+		WHERE petplace_created > CURRENT_DATE();
+	</select>
+
+</mapper>

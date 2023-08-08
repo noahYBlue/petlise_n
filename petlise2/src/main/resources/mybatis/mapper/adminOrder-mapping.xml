@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="admin.order.OrderDAO">
+
+	<resultMap type="userdto" id="user">
+		<result column="user_id" property="user_id" />
+		<result column="u_name" property="name" />
+		<result column="email" property="email" />
+	</resultMap>
+
+	<resultMap type="admin.order.OrderDTO" id="orderdtos">
+		<result column="order_id" property="order_id" />
+		<result column="user_id" property="user_id" />
+		<result column="name" property="name" />
+		<result column="address" property="address" />
+		<result column="phone" property="phone" />
+		<result column="require" property="require" />
+		<result column="status" property="status" />
+		<result column="date" property="date" />
+		<result column="delivery_id" property="delivery_id" />
+		<result column="delivery_com" property="delivery_com" />
+		<result column="available_point" property="available_point" />
+		<result column="total_product" property="total_product" />
+		<result column="total_payment" property="total_payment" />
+		<collection property="user" resultMap="user" />
+	</resultMap>
+	
+	<select id="getOrdersPaging" parameterType="pagination.SearchDTO" resultMap="orderdtos">
+		select 
+			o.order_id,o.user_id,o.name,o.address,o.phone,
+			o.require,o.status,o.date,o.delivery_com, o.delivery_id, o.available_point,
+			o.total_product,o.total_payment,
+			u.user_id,u.name as u_name, u.email
+		from `order` as o
+		inner join user as u 
+		on u.user_id = o.user_id
+		<choose>
+			<when test="'all'.equals( searchType1 ) or searchType1 == null or searchType1 == ''">
+				WHERE `status` is not null
+			</when>
+			<when test="'wait'.equals( searchType1 )">
+				WHERE `status` = "주문완료"
+			</when>
+			<when test="'finish'.equals( searchType1 )">
+				WHERE `status` = "배송처리완료"
+			</when>
+			<when test="'cancel'.equals( searchType1 )">
+				WHERE `status` = "주문취소"
+			</when>
+		</choose>
+		
+		<if test="keyword != null and keyword != ''">
+			<choose>
+                <!-- 검색 유형이 있을 때 -->
+                <when test="searchType2 != null and searchType2 != '' and !'전체'.equals( searchType1 )">
+                    <choose>
+                        <when test="'구매회원ID'.equals( searchType2 )">
+                            AND u.email LIKE CONCAT('%', #{keyword}, '%')
+                        </when>
+                        <when test="'회원닉네임'.equals( searchType2 )">
+                            AND u.`name` LIKE CONCAT('%', #{keyword}, '%')
+                        </when>
+                        <when test="'실수령자'.equals( searchType2 )">
+                            AND o.`name` LIKE CONCAT('%', #{keyword}, '%')
+                        </when>
+                        <when test="'배송지'.equals( searchType2 )">
+                            AND o.address LIKE CONCAT('%', #{keyword}, '%')
+                        </when>
+                        <when test="'연락처'.equals( searchType2 )">
+                            AND o.phone LIKE CONCAT('%', #{keyword}, '%')
+                        </when>
+                    </choose>
+                </when>
+                
+                <!-- 전체 검색일 때 -->
+                <otherwise>
+                    AND (
+                           u.email LIKE CONCAT('%', #{keyword}, '%')
+                        OR u.`name` LIKE CONCAT('%', #{keyword}, '%')
+                        OR o.`name` LIKE CONCAT('%', #{keyword}, '%')
+                        OR o.address LIKE CONCAT('%', #{keyword}, '%')
+                        OR o.phone LIKE CONCAT('%', #{keyword}, '%')
+                    )
+                </otherwise>
+        	</choose>
+		</if>
+		
+		<if test="startDate != null and startDate != ''">
+			and `date` <![CDATA[>=]]> #{startDate}
+		</if>
+		<if test="endDate != null and endDate != ''">
+			and `date` <![CDATA[<=]]> CONCAT(#{endDate}, " 23:59:59")
+		</if>
+		order by date desc
+		limit #{pagination.limitStart}, #{recordSize}
+	</select>
+
+	<select id="getCount" parameterType="pagination.SearchDTO" resultType="int">
+		select count(*)
+		from `order` as o
+		inner join user as u 
+		on u.user_id = o.user_id
+		<choose>
+			<when test="'all'.equals( searchType1 ) or searchType1 == null or searchType1 == ''">
+				WHERE `status` is not null
+			</when>
+			<when test="'wait'.equals( searchType1 )">
+				WHERE `status` = "주문완료"
+			</when>
+			<when test="'finish'.equals( searchType1 )">
+				WHERE `status` = "배송처리완료"
+			</when>
+			<when test="'cancel'.equals( searchType1 )">
+				WHERE `status` = "주문취소"
+			</when>
+		</choose>
+		
+		<!-- 검색 키워드 있을 때 -->
+		<if test="keyword != null and keyword != ''">
+			<choose>
+                <!-- 검색 유형이 있을 때 -->
+                <when test="searchType2 != null and searchType2 != '' and !'전체'.equals( searchType1 )">
+                    <choose>
+                        <when test="'구매회원ID'.equals( searchType2 )">
+                            AND u.email LIKE CONCAT('%', #{keyword}, '%')
+                        </when>
+                        <when test="'회원닉네임'.equals( searchType2 )">
+                            AND u.`name` LIKE CONCAT('%', #{keyword}, '%')
+                        </when>
+                        <when test="'실수령자'.equals( searchType2 )">
+                            AND o.`name` LIKE CONCAT('%', #{keyword}, '%')
+                        </when>
+                        <when test="'배송지'.equals( searchType2 )">
+                            AND o.address LIKE CONCAT('%', #{keyword}, '%')
+                        </when>
+                        <when test="'연락처'.equals( searchType2 )">
+                            AND o.phone LIKE CONCAT('%', #{keyword}, '%')
+                        </when>
+                    </choose>
+                </when>
+                
+                <!-- 전체 검색일 때 -->
+                <otherwise>
+                    AND (
+                           u.email LIKE CONCAT('%', #{keyword}, '%')
+                        OR u.`name` LIKE CONCAT('%', #{keyword}, '%')
+                        OR o.`name` LIKE CONCAT('%', #{keyword}, '%')
+                        OR o.address LIKE CONCAT('%', #{keyword}, '%')
+                        OR o.phone LIKE CONCAT('%', #{keyword}, '%')
+                    )
+                </otherwise>
+        	</choose>
+		</if>
+		<if test="startDate != null and startDate != ''">
+			and `date` <![CDATA[>=]]> #{startDate}
+		</if>
+		<if test="endDate != null and endDate != ''">
+			and `date` <![CDATA[<=]]> CONCAT(#{endDate}, " 23:59:59")
+		</if>
+	</select>
+	
+	<select id="getCountWait" resultType="int">
+		select count(*)
+		from `order`
+		WHERE `status` = "주문완료"
+	</select>
+	
+<!-- 주문상품정보 불러오기 -->
+	<select id="getOrderDetail" parameterType="String" resultType="admin.order.OrderProductDTO">
+		select * 
+		from `orderProduct`
+		where order_id=#{order_id};
+	</select>
+	
+<!-- 배송정보 업데이트 -->
+	<update id="updateDelivery" parameterType="HashMap">
+		UPDATE `order` 
+		SET status = "배송처리완료", delivery_com = #{delivery_com}, delivery_id = #{delivery_id}
+		WHERE order_id=#{order_id};
+	</update> 
+	
+</mapper>

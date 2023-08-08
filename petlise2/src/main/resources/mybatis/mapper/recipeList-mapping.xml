@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="recipe.list.RecipeListDAO">
+
+<resultMap type="recipe.list.RecipeListDTO" id="recipelistdtomap">
+	<id property="seq" column="seq"/>
+    <result column="recipe_id" property="recipe_id" />
+    <result column="user_id" property="user_id" />
+    <result column="recipe_title" property="recipe_title" />
+    <result column="recipe_contents" property="recipe_contents" />
+    <result column="recipe_created_at" property="recipe_created_at" />
+    <result column="recipe_updated_at" property="recipe_updated_at" />
+    <result column="image" property="image" />
+    <result column="view_cnt" property="view_cnt"/>
+    <result column="recipe_category" property="recipe_category" />
+    <result column="pet_category" property="pet_category" />
+    <result column="main_category" property="main_category" />
+    <result column="sub_category" property="sub_category" />
+    <result column="likes" property="likes" />
+    <result column="comments" property="comments" />
+    <result column="recipe_of_the_month" property="recipe_of_the_month" />
+    <collection property="user" resultMap="user" />
+</resultMap>
+
+<resultMap type="userdto" id="user">
+    <result column="user_id" property="user_id" />
+    <result column="name" property="name" />
+</resultMap>
+
+
+<select id="getRecipeName" resultType="String" parameterType="String">
+    SELECT u.name
+    FROM recipe r
+    JOIN user u ON r.user_id = u.user_id
+    WHERE r.recipe_id = #{recipe_id}
+</select> 
+
+<select id="getAllRecipe" resultType="recipelistdto">
+	SELECT *
+	FROM recipe
+	ORDER BY
+	recipe_created_at DESC;
+</select>
+
+	<!-- getRecipeOfTheMonth 쿼리 수정 -->
+<select id="getRecipeOfTheMonth" resultMap="recipelistdtomap" parameterType="pagination.SearchDTO">
+    SELECT *
+    FROM recipe r
+    JOIN user u ON r.user_id = u.user_id AND r.recipe_category = #{recipeType}
+    WHERE r.recipe_of_the_month = true
+    <if test="keyword != null and keyword != ''">
+        AND r.recipe_title LIKE CONCAT('%', #{keyword}, '%')
+    </if>
+    ORDER BY r.likes DESC, r.recipe_created_at DESC <!-- likes 수로 정렬 -->
+    LIMIT #{pagination.limitStart}, #{recordSize}
+</select>
+
+<!-- getRecipeOfTheMonthCount 쿼리 수정 -->
+<select id="getRecipeOfTheMonthCount" resultType="int" parameterType="pagination.SearchDTO">
+    SELECT count(*)
+    FROM recipe r
+    JOIN user u ON r.user_id = u.user_id AND r.recipe_category = #{recipeType}
+    WHERE r.recipe_of_the_month = true
+    <if test="keyword != null and keyword != ''">
+        AND r.recipe_title LIKE CONCAT('%', #{keyword}, '%')
+    </if>
+</select>
+
+	
+
+
+	<!-- ▼▼▼▼Pagination▼▼▼▼ -->
+	<select id="getAllRecipePaging" resultMap="recipelistdtomap"
+		parameterType="pagination.SearchDTO">
+		SELECT *
+		FROM recipe r
+		JOIN user u ON r.user_id = u.user_id
+		WHERE r.recipe_category = #{recipeType} AND r.pet_category = #{searchType1} AND r.main_category = #{searchType2}
+		<if test="searchType3 != null and searchType3 != ''  and !'전체'.equals(searchType3)">
+			AND r.sub_category = #{searchType3}
+		</if>
+		<if test="keyword != null and keyword != ''">
+			AND r.recipe_title LIKE CONCAT('%', #{keyword}, '%')
+		</if>
+		ORDER BY r.recipe_created_at DESC
+		LIMIT #{pagination.limitStart}, #{recordSize}
+	</select>
+
+	<select id="getCount" resultType="int"
+		parameterType="pagination.SearchDTO">
+		SELECT count(*)
+		FROM recipe r
+		JOIN user u ON r.user_id = u.user_id
+		WHERE r.recipe_category = #{recipeType} AND r.pet_category = #{searchType1} AND r.main_category = #{searchType2}
+		<if test="searchType3 != null and searchType3 != ''  and !'전체'.equals(searchType3)">
+			AND r.sub_category =#{searchType3}
+		</if>
+		<if test="keyword != null and keyword != ''">
+			AND r.recipe_title LIKE CONCAT('%', #{keyword}, '%')
+		</if>
+	</select>
+	<!-- ▲▲▲▲Pagination▲▲▲▲ -->
+	
+
+
+
+
+</mapper>
+

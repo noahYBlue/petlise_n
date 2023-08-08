@@ -1,0 +1,48 @@
+.dataWrapper > p {
+  font: var(--heading18);
+  margin-bottom: 25px;
+}
+
+.dataWrapper .totalWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 30px;
+}
+.dataWrapper .totalWrapper div {
+  width: 32%;
+  height: 180px;
+  border: 1px solid var(--light-point);
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.dataWrapper .totalWrapper div p:first-of-type {
+  font: var(--highlight16);
+  margin-bottom: 20px;
+}
+.dataWrapper .totalWrapper div p:nth-of-type(2) {
+  font: var(--heading34);
+}
+.dataWrapper .totalWrapper div p > span {
+  display: inline-block;
+  font: var(--heading24);
+  margin-left: 5px;
+}
+
+.dataWrapper .chartWrapper {
+  width: 100%;
+  padding: 30px 40px;
+  border: 1px solid var(--light-point);
+  border-radius: 5px;
+}
+.dataWrapper .chartWrapper p {
+  font: var(--highlight16);
+  margin-bottom: 50px;
+}
+.dataWrapper .chartWrapper .chart {
+  width: 100%;
+  height: 415px;
+}

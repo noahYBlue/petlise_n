@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="admin.board.AdminBoardDAO">
+	<!-- board -->
+	<select id="findAllBoard" parameterType="map" resultType="hashmap">
+		SELECT (SELECT count(*) FROM board b
+			LEFT JOIN user u ON b.user_id = u.user_id
+			WHERE b.deleted_at IS NULL
+			<if test="keyword != null and keyword != ''" >
+				WHERE b.board_title like CONCAT('%', #{keyword}, '%')
+				OR u.name like CONCAT('%', #{keyword}, '%')
+			</if>) AS 'count', 
+		(SELECT count(*) FROM boardReport WHERE board_id = b.board_id) AS 'report_count',
+		(SELECT count(*) FROM boardComment WHERE board_id = b.board_id) AS 'comment_count',
+		(SELECT count(*) FROM boardLike WHERE board_id = b.board_id) AS 'like_count',
+		b.board_id, b.user_id, b.board_title as title, b.board_created as created_at, b.board_view as view_count, u.name
+		FROM board b
+		LEFT JOIN user u ON b.user_id = u.user_id
+		WHERE b.deleted_at IS NULL
+		<if test="keyword != null and keyword != ''" >
+			AND (b.board_title like CONCAT('%', #{keyword}, '%')
+			OR u.name like CONCAT('%', #{keyword}, '%'))
+		</if> 
+		ORDER BY board_created DESC, board_id DESC
+		LIMIT 10 OFFSET #{page};
+	</select>
+
+	<select id="findAllBoardReport" parameterType="map" resultType="hashmap">
+		SELECT (SELECT count(*) FROM boardReport br
+			LEFT JOIN board b ON br.board_id = b.board_id
+			LEFT JOIN user writer ON b.user_id = writer.user_id
+			LEFT JOIN user u ON br.user_id = u.user_id
+			WHERE br.board_id IS NOT NULL
+			AND b.deleted_at IS NULL
+			<if test="keyword != null and keyword != ''" >
+				AND (b.board_title like CONCAT('%', #{keyword}, '%')
+				OR u.name like CONCAT('%', #{keyword}, '%')
+				OR writer.name like CONCAT('%', #{keyword}, '%'))
+			</if>) AS 'count', 
+		br.report_id, br.board_id, br.report_type, b.board_title as title, writer.name as writer, u.name as reporter, br.report_date, b.board_created as created_at
+		FROM boardReport br
+		LEFT JOIN board b ON br.board_id = b.board_id
+		LEFT JOIN user writer ON b.user_id = writer.user_id
+		LEFT JOIN user u ON br.user_id = u.user_id
+		WHERE br.board_id IS NOT NULL
+		AND b.deleted_at IS NULL
+		<if test="keyword != null and keyword != ''" >
+			AND (b.board_title like CONCAT('%', #{keyword}, '%')
+			OR u.name like CONCAT('%', #{keyword}, '%')
+			OR writer.name like CONCAT('%', #{keyword}, '%'))
+		</if>
+		ORDER BY report_date DESC, report_id DESC
+		LIMIT 10 OFFSET #{page};
+	</select>
+
+	<select id="findAllCommentReport" parameterType="map" resultType="hashmap">
+		SELECT (SELECT count(*) FROM boardReport br
+			LEFT JOIN boardComment bc ON br.b_comment_id = bc.comment_id
+			LEFT JOIN user writer ON bc.user_id = writer.user_id
+			LEFT JOIN user u ON br.user_id = u.user_id
+			WHERE br.b_comment_id IS NOT NULL
+			AND bc.deleted_at IS NULL
+			<if test="keyword != null and keyword != ''" >
+				AND (bc.comment_contents like CONCAT('%', #{keyword}, '%')
+				OR u.name like CONCAT('%', #{keyword}, '%')
+				OR writer.name like CONCAT('%', #{keyword}, '%'))
+			</if>) AS 'count', 
+		br.report_id, bc.board_id, br.b_comment_id as comment_id, br.report_type, bc.comment_contents, writer.name as comment_writer, u.name as comment_reporter, br.report_date, bc.comment_created_at
+		FROM boardReport br
+		LEFT JOIN boardComment bc ON br.b_comment_id = bc.comment_id
+		LEFT JOIN user writer ON bc.user_id = writer.user_id
+		LEFT JOIN user u ON br.user_id = u.user_id
+		WHERE br.b_comment_id IS NOT NULL
+		AND bc.deleted_at IS NULL
+		<if test="keyword != null and keyword != ''" >
+			AND (bc.comment_contents like CONCAT('%', #{keyword}, '%')
+			OR u.name like CONCAT('%', #{keyword}, '%')
+			OR writer.name like CONCAT('%', #{keyword}, '%'))
+		</if>
+		ORDER BY report_date DESC, report_id DESC
+		LIMIT 10 OFFSET #{page};
+	</select>
+	
+	<update id="deleteBoard" parameterType="map">
+		UPDATE board SET deleted_at=#{deleted_at}
+		WHERE board_id=#{board_id}
+	</update>
+	
+	<update id="updateBoardCommentDeleted" parameterType="Map">
+		UPDATE boardComment SET deleted_at=#{deleted_at}
+		WHERE comment_id=#{comment_id}
+	</update>
+	
+	
+	<!-- petplace -->
+	<select id="findAllPetplace" parameterType="map" resultType="hashmap">
+		SELECT (SELECT count(*) FROM petPlace p
+			LEFT JOIN user u ON p.user_id = u.user_id
+			WHERE p.deleted_at IS NULL
+			<if test="keyword != null and keyword != ''" >
+				WHERE p.title like CONCAT('%', #{keyword}, '%')
+				OR u.name like CONCAT('%', #{keyword}, '%')
+			</if>) AS 'count', 
+		(SELECT count(*) FROM boardReport WHERE place_id = p.place_id) AS 'report_count',
+		(SELECT count(*) FROM petplaceComment WHERE place_id = p.place_id) AS 'comment_count',
+		(SELECT count(*) FROM petplaceLike WHERE place_id = p.place_id) AS 'like_count',
+		p.place_id as board_id, p.category, p.user_id, p.title, p.petplace_created as created_at, p.view_count, u.name
+		FROM petPlace p
+		LEFT JOIN user u ON p.user_id = u.user_id
+		WHERE p.deleted_at IS NULL
+		<if test="keyword != null and keyword != ''" >
+			AND (p.title like CONCAT('%', #{keyword}, '%')
+			OR u.name like CONCAT('%', #{keyword}, '%'))
+		</if>
+		ORDER BY petplace_created DESC, place_id DESC
+		LIMIT 10 OFFSET #{page};
+	</select>
+
+	<select id="findAllPetplaceReport" parameterType="map" resultType="hashmap">
+		SELECT (SELECT count(*) FROM boardReport br
+			LEFT JOIN petPlace p ON br.place_id = p.place_id
+			LEFT JOIN user writer ON p.user_id = writer.user_id
+			LEFT JOIN user u ON br.user_id = u.user_id
+			WHERE br.place_id IS NOT NULL
+			AND p.deleted_at IS NULL
+			<if test="keyword != null and keyword != ''" >
+				AND (p.title like CONCAT('%', #{keyword}, '%')
+				OR u.name like CONCAT('%', #{keyword}, '%')
+				OR writer.name like CONCAT('%', #{keyword}, '%'))
+			</if>) AS 'count', 
+		br.report_id, br.place_id as board_id, br.report_type, p.title, writer.name as writer, u.name as reporter, br.report_date, p.petplace_created as created_at
+		FROM boardReport br
+		LEFT JOIN petPlace p ON br.place_id = p.place_id
+		LEFT JOIN user writer ON p.user_id = writer.user_id
+		LEFT JOIN user u ON br.user_id = u.user_id
+		WHERE br.place_id IS NOT NULL
+		AND p.deleted_at IS NULL
+		<if test="keyword != null and keyword != ''" >
+			AND (p.title like CONCAT('%', #{keyword}, '%')
+			OR u.name like CONCAT('%', #{keyword}, '%')
+			OR writer.name like CONCAT('%', #{keyword}, '%'))
+		</if>
+		ORDER BY report_date DESC, report_id DESC
+		LIMIT 10 OFFSET #{page};
+	</select>
+	
+	<select id="findAllPetplaceCommentReport" parameterType="map" resultType="hashmap">
+		SELECT (SELECT count(*) FROM boardReport br
+			LEFT JOIN petplaceComment pc ON br.p_comment_id = pc.comment_id
+			LEFT JOIN user writer ON pc.user_id = writer.user_id
+			LEFT JOIN user u ON br.user_id = u.user_id
+			WHERE br.p_comment_id IS NOT NULL
+			AND pc.deleted_at IS NULL
+			<if test="keyword != null and keyword != ''" >
+				AND (pc.comment_contents like CONCAT('%', #{keyword}, '%')
+				OR u.name like CONCAT('%', #{keyword}, '%')
+				OR writer.name like CONCAT('%', #{keyword}, '%'))
+			</if>) AS 'count', 
+		br.report_id, pc.place_id as board_id, br.p_comment_id as comment_id, br.report_type, pc.comment_contents, writer.name as comment_writer, u.name as comment_reporter, br.report_date, pc.comment_created_at
+		FROM boardReport br
+		LEFT JOIN petplaceComment pc ON br.p_comment_id = pc.comment_id
+		LEFT JOIN user writer ON pc.user_id = writer.user_id
+		LEFT JOIN user u ON br.user_id = u.user_id
+		WHERE br.p_comment_id IS NOT NULL
+		AND pc.deleted_at IS NULL
+		<if test="keyword != null and keyword != ''" >
+			AND (pc.comment_contents like CONCAT('%', #{keyword}, '%')
+			OR u.name like CONCAT('%', #{keyword}, '%')
+			OR writer.name like CONCAT('%', #{keyword}, '%'))
+		</if>
+		ORDER BY report_date DESC, report_id DESC
+		LIMIT 10 OFFSET #{page};
+	</select>
+
+	<update id="deletePetplace" parameterType="map">
+		UPDATE petPlace SET deleted_at=#{deleted_at}
+		WHERE place_id=#{board_id}
+	</update>
+	
+	<update id="updatePetplaceCommentDeleted" parameterType="Map">
+		UPDATE petplaceComment SET deleted_at=#{deleted_at}
+		WHERE comment_id=#{comment_id}
+	</update>
+
+</mapper>
